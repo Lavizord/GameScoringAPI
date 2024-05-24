@@ -21,13 +21,19 @@ var app = builder.Build();
 
 
 
+
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
     app.UseSwagger();
-//    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Game API V1");
+        c.RoutePrefix = string.Empty; // Makes Swagger UI available at the app's root
+    });
 //}
 app.UseHttpsRedirection();
+
 
 
 // Create SINGLE Game endpoint
