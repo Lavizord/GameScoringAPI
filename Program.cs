@@ -55,4 +55,8 @@ app.MapMatchEndpoints();
 
 // Map the MatchDataPoints endpoints
 app.MapMatchDataPointEndpoints();
+
+// Test endpoints
+app.MapTestEndpoints();
+
 app.Run();
