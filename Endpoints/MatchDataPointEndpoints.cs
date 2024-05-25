@@ -35,7 +35,7 @@ public static class MatchDataPointEndpoints
             return Results.Created($"/match-data-points/{matchDataPoint.Id}", matchDataPoint);
         })
         .WithName("PostMatchDataPoint")
-        .WithTags("Match Data Points")
+        .WithTags("MatchDataPoints", "POST Endpoints")
         .WithOpenApi();
 
         app.MapPost("/match-multiple-data-points", async (List<MatchDataPointDto> dataPointDtos, GameDBContext context) =>
@@ -70,7 +70,7 @@ public static class MatchDataPointEndpoints
             return Results.Created("/match-data-points", matchDataPoints);
         })
         .WithName("PostMultipleMatchDataPoints")
-        .WithTags("Match Data Points")
+        .WithTags("MatchDataPoints", "POST Endpoints")
         .WithOpenApi();
     }
 }
