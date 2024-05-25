@@ -25,6 +25,15 @@ Console.WriteLine($"Database File Exists: {File.Exists(dbPath)}");
 
 var app = builder.Build();
 
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<GameDBContext>();
+    dbContext.Database.Migrate();
+}
+
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
