@@ -27,6 +27,7 @@ public static class MatchEndpoints
             return Results.Created($"/matches/{match.Id}", match);
         })
         .WithName("PostMatch")
+        .WithTags("Matches")
         .WithOpenApi();
     }
 }

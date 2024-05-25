@@ -23,6 +23,7 @@ public class Game
 
 public class GameDto
 {
+    public int Id { get; set; }  // Add the Id property
     public string GameName { get; set; }
     public string GameDescription { get; set; }
     public int MinPlayers { get; set; }
@@ -32,14 +33,11 @@ public class GameDto
 
 public class GameWithMatchDataPointDto
 {
-    // GameInfo properties
     public int Id { get; set; }
     public string GameName { get; set; }
     public string GameDescription { get; set; }
     public int MinPlayers { get; set; }
     public int MaxPlayers { get; set; }
     public int AverageDuration { get; set; }
-
-    // List of MatchDataPointDto properties
-    public List<MatchDataPointDto> MatchDataPoints { get; set; }
+    public List<MatchDto> Matches { get; set; } = new List<MatchDto>();
 }

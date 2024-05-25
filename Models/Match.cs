@@ -22,7 +22,9 @@ public class Match
 
 public class MatchDto
 {
+    public int MatchId { get; set; }
     public int GameId { get; set; }
     public DateTime MatchDate { get; set; }
     public string Notes { get; set; }
+    public List<MatchDataPointDto> MatchDataPoints { get; set; } = new List<MatchDataPointDto>();
 }
