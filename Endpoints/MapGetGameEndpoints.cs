@@ -21,8 +21,15 @@ public static class GetGameEndpoints
         .WithTags("Games", "GET Endpoints")
         .WithOpenApi();
 
-        app.MapGet("/games", async (GameDBContext context) =>
+        app.MapGet("/games", async (int? id, string? descripiton, GameDBContext context) =>
         {
+            IQueryable<Game> gamesQuery = context.Games;
+            if(id != null)
+                gamesQuery = gamesQuery.Where(g => g.Id == id);
+
+            if (!string.IsNullOrEmpty(descripiton))
+                gamesQuery = gamesQuery.Where(g => g.GameDescription.Contains(descripiton));
+            
             var games = await context.Games.ToListAsync();
 
             return Results.Ok(games);
