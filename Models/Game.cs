@@ -6,19 +6,15 @@ public class Game
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; } // Auto-incrementing primary key
+    public int Id { get; set; }
 
     public string GameName { get; set; }
-    public string GameDescription { get; set; }
+    public string? GameDescription { get; set; }
     public int MinPlayers { get; set; }
     public int MaxPlayers { get; set; }
     public int AverageDuration { get; set; }
 
-    // Navigation property for related MatchDataPoints
-    public List<MatchDataPoint> MatchDataPoints { get; set; } = new();
-
-    // Navigation property for related Matches
-    public List<Match> Matches { get; set; } = new();
+    public ICollection<Match> Matches { get; set; }  // Navigation property to Matches
 }
 
 public class GameDto

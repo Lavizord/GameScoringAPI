@@ -43,7 +43,7 @@ using (var scope = app.Services.CreateScope())
     var dbContext = services.GetRequiredService<GameDBContext>();
     
     // Delete the existing database
-   // dbContext.Database.EnsureDeleted();
+    dbContext.Database.EnsureDeleted();
 
     // Create a new database based on the model definitions
     dbContext.Database.EnsureCreated();
@@ -53,7 +53,7 @@ using (var scope = app.Services.CreateScope())
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Game API V1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Game API V0.14");
     c.RoutePrefix = string.Empty; // Makes Swagger UI available at the app's root
 });
 

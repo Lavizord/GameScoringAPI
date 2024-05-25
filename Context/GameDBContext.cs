@@ -16,7 +16,7 @@ public class GameDBContext : DbContext
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
-            entity.HasOne<Match>()
+            entity.HasOne(e => e.Match)
                 .WithMany(m => m.MatchDataPoints)
                 .HasForeignKey(e => e.MatchId)
                 .OnDelete(DeleteBehavior.Cascade);

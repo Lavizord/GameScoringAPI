@@ -69,7 +69,6 @@ public static class GetGameEndpoints
                     Notes = match.Notes,
                     MatchDataPoints = match.MatchDataPoints.Select(dp => new MatchDataPointDto
                     {
-                        GameId = dp.GameId,
                         MatchId = dp.MatchId,
                         PlayerName = dp.PlayerName,
                         GamePoints = dp.GamePoints,
