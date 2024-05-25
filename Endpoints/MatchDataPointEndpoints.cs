@@ -37,8 +37,9 @@ public static class MatchDataPointEndpoints
         .WithName("PostMatchDataPoint")
         .WithTags("MatchDataPoints", "POST Endpoints")
         .WithOpenApi();
-
-        app.MapPost("/match-multiple-data-points", async (List<MatchDataPointDto> dataPointDtos, GameDBContext context) =>
+        
+        // TODO: This is returnin 404
+        app.MapPost("/match-data-points-multiple", async (List<MatchDataPointDto> dataPointDtos, GameDBContext context) =>
         {
             var gameIds = dataPointDtos.Select(dp => dp.GameId).Distinct();
             var matchIds = dataPointDtos.Select(dp => dp.MatchId).Distinct();
@@ -70,7 +71,54 @@ public static class MatchDataPointEndpoints
             return Results.Created("/match-data-points", matchDataPoints);
         })
         .WithName("PostMultipleMatchDataPoints")
-        .WithTags("MatchDataPoints", "POST Endpoints")
+        .WithTags("MatchDataPoints", "POST Endpoints", "Bugged")
         .WithOpenApi();
+        
+        app.MapGet("/match-data-points-all/", async (GameDBContext context) =>
+        {
+            var matchDataPoints = await context.MatchDataPoints
+                .Select(dp => new MatchDataPointDto
+                {
+                    GameId = dp.GameId,
+                    MatchId = dp.MatchId,
+                    PlayerName = dp.PlayerName,
+                    GamePoints = dp.GamePoints,
+                    PointsDescription = dp.PointsDescription
+                })
+                .ToListAsync();
+
+            return Results.Ok(matchDataPoints);
+        })
+        .WithName("GetMatchDataPoints")
+        .WithTags("MatchDataPoints", "GET Endpoints")
+        .WithOpenApi();
+/*
+        app.MapGet("/match-data-points-all/", async (int? matchId, int? gameId, GameDBContext context) =>
+        {
+            IQueryable<MatchDataPoint> query = context.MatchDataPoints;
+
+            if (matchId.HasValue)
+            {
+                query = query.Where(dp => dp.MatchId == matchId);
+            }
+
+            if (gameId.HasValue)
+            {
+                query = query.Where(dp => dp.GameId == gameId);
+            }
+
+            var matchDataPoints = await query.ToListAsync();
+
+            if (matchDataPoints == null || !matchDataPoints.Any())
+            {
+                return Results.NotFound("No match data points found.");
+            }
+
+            return Results.Ok(matchDataPoints);
+        })
+        .WithName("GetMatchDataPoints")
+        .WithTags("MatchDataPoints", "GET Endpoints")
+        .WithOpenApi();
+*/
     }
 }
