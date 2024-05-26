@@ -15,6 +15,17 @@ builder.Services.AddSwaggerGen(options =>
     options.DocumentFilter<SwaggerTagsSorter>();
 });
 
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost3000", builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 // Construct the database path
 var dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "games.db");
 
@@ -53,9 +64,13 @@ using (var scope = app.Services.CreateScope())
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Game API V0.14");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Game API V0.141");
     c.RoutePrefix = string.Empty; // Makes Swagger UI available at the app's root
 });
+
+
+
+
 
 app.UseHttpsRedirection();
 
