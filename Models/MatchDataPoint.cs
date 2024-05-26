@@ -22,7 +22,7 @@ public class MatchDataPoint
 public class MatchDataPointDto
 {
     public int Id { get; set; }
-    public int GameID { get; set; }
+    public int GameId { get; set; }
     [Required]
     public string GameName { get; set; }  // Include GameName in DTO
     public int MatchId { get; set; }
