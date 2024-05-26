@@ -109,7 +109,7 @@ public static class MatchDataPointEndpoints
                     GamePoints = dp.GamePoints,
                     PointsDescription = dp.PointsDescription,
                     CreatedDate = dp.CreatedDate,
-                    GameID = dp.Match.GameId,  // Access GameId through Match
+                    GameId = dp.Match.GameId,  // Access GameId through Match
                     GameName = dp.Match.Game.GameName  // Access GameName through Match
                 })
                 .ToListAsync();
@@ -125,7 +125,7 @@ public static class MatchDataPointEndpoints
             foreach (var dataPointDto in matchDataPointDtos)
             {
                 // Check if the Game exists
-                var game = await context.Games.FirstOrDefaultAsync(g => g.Id == dataPointDto.GameID);
+                var game = await context.Games.FirstOrDefaultAsync(g => g.Id == dataPointDto.GameId);
                 if (game == null)
                 {
                     // If the game doesn't exist, create it
