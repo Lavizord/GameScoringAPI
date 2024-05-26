@@ -74,6 +74,9 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 
+// Use CORS with the specified policy
+app.UseCors("AllowLocalhost3000");
+
 // Map Game Endpoints
 app.MapGetGameEndpoints();
 app.MapGameEndpoints();
