@@ -18,9 +18,9 @@ builder.Services.AddSwaggerGen(options =>
 // Configure CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowLocalhost3000", builder =>
+    options.AddPolicy("AllowSpecificOrigins", builder =>
     {
-        builder.WithOrigins("http://localhost:3000")
+        builder.WithOrigins("http://localhost:3000", "https://lively-bay-05f413403.5.azurestaticapps.net")
                .AllowAnyMethod()
                .AllowAnyHeader();
     });
@@ -69,13 +69,10 @@ app.UseSwaggerUI(c =>
 });
 
 
-
-
-
 app.UseHttpsRedirection();
 
 // Use CORS with the specified policy
-app.UseCors("AllowLocalhost3000");
+app.UseCors("AllowSpecificOrigins");
 
 // Map Game Endpoints
 app.MapGetGameEndpoints();
