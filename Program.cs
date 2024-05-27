@@ -54,7 +54,7 @@ using (var scope = app.Services.CreateScope())
     var dbContext = services.GetRequiredService<GameDBContext>();
     
     // Delete the existing database
-    dbContext.Database.EnsureDeleted();
+    //dbContext.Database.EnsureDeleted();
 
     // Create a new database based on the model definitions
     dbContext.Database.EnsureCreated();
