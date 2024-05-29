@@ -19,7 +19,7 @@ public static class GetGameEndpoints
             return Results.Ok(game);
         })
         .WithName("GetGameById")
-        .WithTags("Games", "GET Endpoints", "FrontEnd - Mockup")
+        .WithTags("1. Games", "GET Endpoints", "9. FrontEnd - Mockup")
         .WithOpenApi();
 
 
@@ -37,7 +37,7 @@ public static class GetGameEndpoints
             return Results.Ok(games);
         })
         .WithName("GetAllGames")
-        .WithTags("Games", "GET Endpoints", "FrontEnd - Mockup")
+        .WithTags("1. Games", "GET Endpoints", "9. FrontEnd - Mockup")
         .WithOpenApi();
 
 
@@ -83,7 +83,7 @@ public static class GetGameEndpoints
             return Results.Ok(gamesWithMatchesDto);
         })
         .WithName("GetGamesWithMatchesAndDataPoints")
-        .WithTags("Games Matches DataPoints", "GET Endpoints")
+        .WithTags("0. Full Dataset", "GET Endpoints")
         .WithOpenApi();
     }
 }

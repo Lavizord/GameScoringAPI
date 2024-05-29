@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
 
-public static class MatchEndpoints
+public static class PostMatchEndpoints
 {
-    public static void MapMatchEndpoints(this IEndpointRouteBuilder app)
-    {
+    public static void MapPostMatchEndpoints(this WebApplication app)
+    {    
         app.MapPost("/matches", async (MatchDto matchDto, GameDBContext context) =>
         {
             var gameExists = await context.Games.AnyAsync(g => g.Id == matchDto.GameId);
@@ -27,7 +28,7 @@ public static class MatchEndpoints
             return Results.Created($"/matches/{match.Id}", match);
         })
         .WithName("PostMatch")
-        .WithTags("Matches", "POST Endpoints")
-        .WithOpenApi();
+        .WithTags("2. Matches", "POST Endpoints")
+        .WithOpenApi();    
     }
 }

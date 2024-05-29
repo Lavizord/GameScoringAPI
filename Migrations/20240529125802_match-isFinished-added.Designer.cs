@@ -43,7 +43,7 @@ namespace GameScoringAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Games");
+                    b.ToTable("1. Games");
                 });
 
             modelBuilder.Entity("Match", b =>
@@ -68,7 +68,7 @@ namespace GameScoringAPI.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("Matches");
+                    b.ToTable("2. Matches");
                 });
 
             modelBuilder.Entity("MatchDataPoint", b =>
@@ -98,13 +98,13 @@ namespace GameScoringAPI.Migrations
 
                     b.HasIndex("MatchId");
 
-                    b.ToTable("MatchDataPoints");
+                    b.ToTable("3. MatchDataPoints");
                 });
 
             modelBuilder.Entity("Match", b =>
                 {
                     b.HasOne("Game", "Game")
-                        .WithMany("Matches")
+                        .WithMany("2. Matches")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -115,7 +115,7 @@ namespace GameScoringAPI.Migrations
             modelBuilder.Entity("MatchDataPoint", b =>
                 {
                     b.HasOne("Match", "Match")
-                        .WithMany("MatchDataPoints")
+                        .WithMany("3. MatchDataPoints")
                         .HasForeignKey("MatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -125,12 +125,12 @@ namespace GameScoringAPI.Migrations
 
             modelBuilder.Entity("Game", b =>
                 {
-                    b.Navigation("Matches");
+                    b.Navigation("2. Matches");
                 });
 
             modelBuilder.Entity("Match", b =>
                 {
-                    b.Navigation("MatchDataPoints");
+                    b.Navigation("3. MatchDataPoints");
                 });
 #pragma warning restore 612, 618
         }
