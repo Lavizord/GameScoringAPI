@@ -28,6 +28,7 @@ public static class GameEndpoints
         .WithTags("Games", "POST Endpoints")
         .WithOpenApi();
 
+
         app.MapPut("/game/{id}", async (int id, GameDto gameDto, GameDBContext context) =>
         {
             var existingGame = await context.Games.FindAsync(id);
@@ -49,6 +50,7 @@ public static class GameEndpoints
         .WithName("PutGame")
         .WithTags("Games", "PUT Endpoints")
         .WithOpenApi();
+
 
         app.MapPost("/games", async (List<GameDto> gameDtos, GameDBContext context) =>
         {
@@ -74,8 +76,9 @@ public static class GameEndpoints
             return Results.Created("/games", createdGames);
         })
         .WithName("PostMultipleGames")
-        .WithTags("Games", "POST Endpoints")
+        .WithTags("Games", "POST Endpoints", "FrontEnd - Mockup")
         .WithOpenApi();
+
 
         app.MapPut("/games", async (List<GameDto> gameDtos, GameDBContext context) =>
         {
@@ -104,6 +107,7 @@ public static class GameEndpoints
         .WithTags("Games", "PUT Endpoints")
         .WithOpenApi();
 
+
         app.MapDelete("/game/{id}", async (int id, GameDBContext context) =>
         {
             var game = await context.Games.FindAsync(id);
@@ -118,8 +122,9 @@ public static class GameEndpoints
             return Results.NoContent();
         })
         .WithName("DeleteGame")
-        .WithTags("Games", "DELETE Endpoints")
+        .WithTags("Games", "DELETE Endpoints", "FrontEnd - Mockup")
         .WithOpenApi();
+
 
         app.MapDelete("/games", async (GameDBContext context, params int[] gameIds) =>
         {

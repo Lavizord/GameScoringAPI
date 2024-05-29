@@ -7,7 +7,8 @@ public static class GetGameEndpoints
 {
     public static void MapGetGameEndpoints(this WebApplication app)
     {
-        app.MapGet("/games/{id}", async (int id, GameDBContext context) =>
+
+        app.MapGet("/game/{id}", async (int id, GameDBContext context) =>
         {
             var game = await context.Games.FindAsync(id);
             if (game == null)
@@ -18,8 +19,9 @@ public static class GetGameEndpoints
             return Results.Ok(game);
         })
         .WithName("GetGameById")
-        .WithTags("Games", "GET Endpoints")
+        .WithTags("Games", "GET Endpoints", "FrontEnd - Mockup")
         .WithOpenApi();
+
 
         app.MapGet("/games", async (int? id, string? descripiton, GameDBContext context) =>
         {
@@ -35,8 +37,9 @@ public static class GetGameEndpoints
             return Results.Ok(games);
         })
         .WithName("GetAllGames")
-        .WithTags("Games", "GET Endpoints")
+        .WithTags("Games", "GET Endpoints", "FrontEnd - Mockup")
         .WithOpenApi();
+
 
         app.MapGet("/games-with-matches-and-data-points", async (string? gameName, DateTime? matchDateAfter, DateTime? matchDateBefore, GameDBContext context) =>
         {
@@ -80,7 +83,7 @@ public static class GetGameEndpoints
             return Results.Ok(gamesWithMatchesDto);
         })
         .WithName("GetGamesWithMatchesAndDataPoints")
-        .WithTags("Games Matches DataPoints", "GET Endpoints")
+        .WithTags("Games Matches DataPoints", "GET Endpoints", "FrontEnd - Mockup")
         .WithOpenApi();
     }
 }
