@@ -7,7 +7,7 @@ public static class DeleteMatchEndpoints
 {
     public static void MapDeleteMatchEndpoints(this WebApplication app)
     {        
-        app.MapDelete("/match-and-data-pointss/{id}", async (int id, GameDBContext context) =>
+        app.MapDelete("/match-and-data-points/{id}", async (int id, GameDBContext context) =>
         {
             var match = await context.Matches.FindAsync(id);
             if (match == null)

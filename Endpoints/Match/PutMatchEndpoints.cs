@@ -59,6 +59,4 @@ public static class PutMatchEndpoints
         .WithTags("2. Matches", "PUT Endpoints")
         .WithOpenApi();    
     }
-
-    // TODO: Delete match, with all associated datapoints.
 }

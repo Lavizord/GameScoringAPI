@@ -23,14 +23,11 @@ public class MatchDataPointDto
 {
     public int Id { get; set; }
     public int GameId { get; set; }
-    [Required]
     public string GameName { get; set; }  // Include GameName in DTO
     public int MatchId { get; set; }
-    [Required]
+    public bool isMatchFinished { get; set; }
     public string PlayerName { get; set; }
-    [Required]
     public int GamePoints { get; set; }
-    [Required]
     public string PointsDescription { get; set; }
     public DateTime CreatedDate { get; set; }
 }

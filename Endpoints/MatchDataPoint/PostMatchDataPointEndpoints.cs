@@ -3,27 +3,46 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 
+
+public class PostMatchDataPointDto
+{
+    public string PlayerName { get; set; }
+    public int GamePoints { get; set; }
+    public string PointsDescription { get; set; }
+    public DateTime CreatedDate { get; set; }
+}
+public class ReturnPostMatchDataPointDto
+{
+    public int id { get; set; }
+    public int MatchId { get; set; }
+    public string PlayerName { get; set; }
+    public int GamePoints { get; set; }
+    public string PointsDescription { get; set; }
+    public DateTime CreatedDate { get; set; }
+}
+
+
+
 public static class PostMatchDataPointEndpoints
 {
     public static void MapPostMatchDataPointEndpoints(this WebApplication app)
     {   
 
-        app.MapPost("/match-data-point", async (MatchDataPointDto dataPointDto, GameDBContext context) =>
+        app.MapPost("/match-data-point/{MatchId}", async (int matchId, PostMatchDataPointDto dataPointDto, GameDBContext context) =>
         {
             // Check if the match exists and retrieve the match including the game
             var match = await context.Matches
-                .Include(m => m.Game)
-                .FirstOrDefaultAsync(m => m.Id == dataPointDto.MatchId);
+                .FirstOrDefaultAsync(m => m.Id == matchId);
 
             if (match == null)
             {
-                return Results.NotFound($"Match with ID {dataPointDto.MatchId} not found.");
+                return Results.NotFound($"Match with ID {matchId} not found. Can't POST the match-data-point.");
             }
 
             // Create the MatchDataPoint entity
             var matchDataPoint = new MatchDataPoint
             {
-                MatchId = dataPointDto.MatchId,
+                MatchId = matchId,  // Set the foreign key reference
                 PlayerName = dataPointDto.PlayerName,
                 GamePoints = dataPointDto.GamePoints,
                 PointsDescription = dataPointDto.PointsDescription,
@@ -34,16 +53,15 @@ public static class PostMatchDataPointEndpoints
             context.MatchDataPoints.Add(matchDataPoint);
             await context.SaveChangesAsync();
 
-            // Map the created MatchDataPoint to MatchDataPointDto
-            var createdDataPointDto = new MatchDataPointDto
+            // Map the created MatchDataPoint to PostMatchDataPointDto
+            var createdDataPointDto = new ReturnPostMatchDataPointDto
             {
-                Id = matchDataPoint.Id,
+                id = matchDataPoint.Id,
                 MatchId = matchDataPoint.MatchId,
                 PlayerName = matchDataPoint.PlayerName,
                 GamePoints = matchDataPoint.GamePoints,
                 PointsDescription = matchDataPoint.PointsDescription,
                 CreatedDate = matchDataPoint.CreatedDate,
-                GameName = match.Game.GameName  // Assuming you include GameName in the DTO
             };
 
             // Return the created data point DTO

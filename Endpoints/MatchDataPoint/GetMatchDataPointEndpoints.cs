@@ -20,6 +20,7 @@ public static class GetMatchDataPointEndpoints
                     GamePoints = dp.GamePoints,
                     PointsDescription = dp.PointsDescription,
                     CreatedDate = dp.CreatedDate,
+                    isMatchFinished = dp.Match.isFinished,
                     GameId = dp.Match.GameId,  // Access GameId through Match
                     GameName = dp.Match.Game.GameName  // Access GameName through Match
                 })
