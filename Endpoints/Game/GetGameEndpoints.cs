@@ -79,6 +79,7 @@ public static class GetGameEndpoints
                     MatchId = match.Id,
                     MatchDate = match.MatchDate,
                     Notes = match.Notes,
+                    isFinished = match.isFinished,
                     MatchDataPoints = match.MatchDataPoints.Select(dp => new MatchDataPointForMatchDto
                     {
                             Id = dp.Id,
