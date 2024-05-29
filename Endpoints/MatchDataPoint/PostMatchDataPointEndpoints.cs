@@ -11,6 +11,16 @@ public class PostMatchDataPointDto
     public string PointsDescription { get; set; }
     public DateTime CreatedDate { get; set; }
 }
+public class ReturnPostMatchDataPointDto
+{
+    public int id { get; set; }
+    public int MatchId { get; set; }
+    public string PlayerName { get; set; }
+    public int GamePoints { get; set; }
+    public string PointsDescription { get; set; }
+    public DateTime CreatedDate { get; set; }
+}
+
 
 
 public static class PostMatchDataPointEndpoints
@@ -18,21 +28,21 @@ public static class PostMatchDataPointEndpoints
     public static void MapPostMatchDataPointEndpoints(this WebApplication app)
     {   
 
-        app.MapPost("/match-data-point/{id}", async (int id, PostMatchDataPointDto dataPointDto, GameDBContext context) =>
+        app.MapPost("/match-data-point/{MatchId}", async (int matchId, PostMatchDataPointDto dataPointDto, GameDBContext context) =>
         {
             // Check if the match exists and retrieve the match including the game
             var match = await context.Matches
-                .Include(m => m.Game)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == matchId);
 
             if (match == null)
             {
-                return Results.NotFound($"Match with ID {id} not found.");
+                return Results.NotFound($"Match with ID {matchId} not found. Can't POST the match-data-point.");
             }
 
             // Create the MatchDataPoint entity
             var matchDataPoint = new MatchDataPoint
             {
+                MatchId = matchId,  // Set the foreign key reference
                 PlayerName = dataPointDto.PlayerName,
                 GamePoints = dataPointDto.GamePoints,
                 PointsDescription = dataPointDto.PointsDescription,
@@ -44,8 +54,10 @@ public static class PostMatchDataPointEndpoints
             await context.SaveChangesAsync();
 
             // Map the created MatchDataPoint to PostMatchDataPointDto
-            var createdDataPointDto = new PostMatchDataPointDto
+            var createdDataPointDto = new ReturnPostMatchDataPointDto
             {
+                id = matchDataPoint.Id,
+                MatchId = matchDataPoint.MatchId,
                 PlayerName = matchDataPoint.PlayerName,
                 GamePoints = matchDataPoint.GamePoints,
                 PointsDescription = matchDataPoint.PointsDescription,

@@ -11,6 +11,18 @@ public class MatchForGameDto
     public string? Notes { get; set; }
     public bool isFinished { get; set; }
     public List<MatchDataPointForMatchDto> MatchDataPoints { get; set; } = new List<MatchDataPointForMatchDto>();
+    public MatchStatsDto MatchStats { get; set; } = new MatchStatsDto();
+
+}
+
+// TODO: Finish this DTO. Should be used to handle the game statistics.
+public class MatchStatsDto
+{
+    public int TotalGamePoints { get; set; }
+    public string WinningPlayer { get; set; }
+
+    public Dictionary<string, int> PlayerPoints { get; set; } = new Dictionary<string, int>();
+
 }
 
 public static class GetGameEndpoints
@@ -82,12 +94,22 @@ public static class GetGameEndpoints
                     isFinished = match.isFinished,
                     MatchDataPoints = match.MatchDataPoints.Select(dp => new MatchDataPointForMatchDto
                     {
-                            Id = dp.Id,
-                            PlayerName = dp.PlayerName,
-                            GamePoints = dp.GamePoints,
-                            PointsDescription = dp.PointsDescription,
-                            CreatedDate = dp.CreatedDate
-                    }).ToList()
+                        Id = dp.Id,
+                        PlayerName = dp.PlayerName,
+                        GamePoints = dp.GamePoints,
+                        PointsDescription = dp.PointsDescription,
+                        CreatedDate = dp.CreatedDate
+                    }).ToList(),
+                    MatchStats = new MatchStatsDto
+                    {
+                        TotalGamePoints = match.MatchDataPoints.Sum(dp => dp.GamePoints),
+                        PlayerPoints = match.MatchDataPoints
+                            .GroupBy(dp => dp.PlayerName)
+                            .ToDictionary(
+                                g => g.Key,
+                                g => g.Sum(dp => dp.GamePoints)
+                            )
+                    }
                 }).ToList()
             }).ToList();
 
