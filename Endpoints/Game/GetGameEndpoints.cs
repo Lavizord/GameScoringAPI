@@ -86,6 +86,7 @@ public static class GetGameEndpoints
                 MinPlayers = game.MinPlayers,
                 MaxPlayers = game.MaxPlayers,
                 AverageDuration = game.AverageDuration,
+                // TODO: We are starting to repeate this code. Check GetMatchEndoint.cs
                 Matches = game.Matches.Select(match => new MatchForGameDto
                 {
                     MatchId = match.Id,
@@ -112,6 +113,19 @@ public static class GetGameEndpoints
                     }
                 }).ToList()
             }).ToList();
+
+            // Now let's calculate the winning player for each game
+            foreach (var game in gamesWithMatchesDto)
+            {
+                foreach (var match in game.Matches)
+                {
+                    // Find the player with the maximum points
+                    var winningPlayer = match.MatchStats.PlayerPoints.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+                    
+                    // Set the winning player in MatchStatsDto
+                    match.MatchStats.WinningPlayer = winningPlayer;
+                }
+            }
 
             return Results.Ok(gamesWithMatchesDto);
         })
