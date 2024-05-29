@@ -83,7 +83,7 @@ public static class GetGameEndpoints
             return Results.Ok(gamesWithMatchesDto);
         })
         .WithName("GetGamesWithMatchesAndDataPoints")
-        .WithTags("Games Matches DataPoints", "GET Endpoints", "FrontEnd - Mockup")
+        .WithTags("Games Matches DataPoints", "GET Endpoints")
         .WithOpenApi();
     }
 }
