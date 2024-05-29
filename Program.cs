@@ -39,25 +39,19 @@ Console.WriteLine($"Database File Exists: {File.Exists(dbPath)}");
 
 var app = builder.Build();
 
-
-//using (var scope = app.Services.CreateScope())
-//{
-//    var services = scope.ServiceProvider;
-//    var dbContext = services.GetRequiredService<GameDBContext>();
-//    dbContext.Database.Migrate();
-//}
-
-
+// Database stuff.
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
-    var dbContext = services.GetRequiredService<GameDBContext>();
-    
+    var dbContext = scope.ServiceProvider.GetRequiredService<GameDBContext>();
+
     // Delete the existing database
     //dbContext.Database.EnsureDeleted();
 
     // Create a new database based on the model definitions
     dbContext.Database.EnsureCreated();
+
+    //Run the migrtions, if any.
+    dbContext.Database.Migrate();
 }
 
 

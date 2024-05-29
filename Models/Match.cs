@@ -13,6 +13,8 @@ public class Match
     public DateTime MatchDate { get; set; }
     public string? Notes { get; set; }
 
+    public bool isFinished { get; set; }
+
     // Navigation property for related Game
     public Game Game { get; set; }
 
@@ -26,5 +28,6 @@ public class MatchDto
     public int GameId { get; set; }
     public DateTime MatchDate { get; set; }
     public string Notes { get; set; }
+    public bool isFinished { get; set; }
     public List<MatchDataPointDto> MatchDataPoints { get; set; } = new List<MatchDataPointDto>();
 }

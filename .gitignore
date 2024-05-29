@@ -111,3 +111,4 @@ appsettings.Development.json
 
 
 sqlite3.exe
+games.db
