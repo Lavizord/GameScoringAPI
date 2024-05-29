@@ -40,7 +40,7 @@ public static class DeleteGameEndpoints
                 var game = await context.Games.FindAsync(id);
                 if (game == null)
                 {
-                    return Results.NotFound($"Game with ID {id} not found."); // Return a 404 Not Found response
+                    return Results.NotFound($"Game with ID {id} not found. No games were deleted."); // Return a 404 Not Found response
                 }
 
                 context.Games.Remove(game);
