@@ -35,5 +35,5 @@ public class GameWithMatchDataPointDto
     public int MinPlayers { get; set; }
     public int MaxPlayers { get; set; }
     public int AverageDuration { get; set; }
-    public List<MatchDto> Matches { get; set; } = new List<MatchDto>();
+    public List<MatchForGameDto> Matches { get; set; } = new List<MatchForGameDto>();
 }

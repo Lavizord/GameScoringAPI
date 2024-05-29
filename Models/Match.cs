@@ -21,13 +21,3 @@ public class Match
     // Navigation property for related MatchDataPoints
     public List<MatchDataPoint> MatchDataPoints { get; set; } = new();
 }
-
-public class MatchDto
-{
-    public int MatchId { get; set; }
-    public int GameId { get; set; }
-    public DateTime MatchDate { get; set; }
-    public string Notes { get; set; }
-    public bool isFinished { get; set; }
-    public List<MatchDataPointDto> MatchDataPoints { get; set; } = new List<MatchDataPointDto>();
-}
