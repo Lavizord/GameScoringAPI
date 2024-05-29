@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.DocumentFilter<SwaggerTagsSorter>();
+    options.DocumentFilter<OrderTagsDocumentFilter>();
 });
 
 // Configure CORS
@@ -59,6 +59,7 @@ app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Game API V0.141");
+    c.ConfigObject.AdditionalItems.Add("tagsSorter", "alpha");
     c.RoutePrefix = string.Empty; // Makes Swagger UI available at the app's root
 });
 
@@ -69,16 +70,18 @@ app.UseHttpsRedirection();
 app.UseCors("AllowSpecificOrigins");
 
 // Map Game Endpoints
-app.MapGetGameEndpoints();
 app.MapGameEndpoints();
 
 // Map Match endpoints
 app.MapMatchEndpoints();
 
-// Map the MatchDataPoints endpoints
+// Map the DataPoints endpoints
 app.MapMatchDataPointEndpoints();
 
 // Test endpoints
 app.MapTestEndpoints();
 
 app.Run();
+
+
+

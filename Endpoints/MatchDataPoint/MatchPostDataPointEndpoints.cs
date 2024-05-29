@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
 
-public static class MatchDataPointEndpoints
+public static class PostMatchDataPointEndpoints
 {
-    public static void MapMatchDataPointEndpoints(this WebApplication app)
-    {
+    public static void MapPostMatchDataPointEndpoints(this WebApplication app)
+    {   
+
         app.MapPost("/match-data-point", async (MatchDataPointDto dataPointDto, GameDBContext context) =>
         {
             // Check if the match exists and retrieve the match including the game
@@ -48,77 +50,9 @@ public static class MatchDataPointEndpoints
             return Results.Created($"/match-data-points/{matchDataPoint.Id}", createdDataPointDto);
         })
         .WithName("PostMatchDataPoint")
-        .WithTags("MatchDataPoints", "POST Endpoints")
+        .WithTags("3. MatchDataPoints", "POST Endpoints")
         .WithOpenApi();
 
-        app.MapPost("/match-data-points-multiple", async (List<MatchDataPointDto> dataPointDtos, GameDBContext context) =>
-        {
-            var matchIds = dataPointDtos.Select(dp => dp.MatchId).Distinct();
-
-            var matchesExist = await context.Matches
-                .Where(m => matchIds.Contains(m.Id))
-                .Select(m => m.Id)
-                .ToListAsync();
-
-            if (matchesExist.Count != matchIds.Count())
-            {
-                return Results.NotFound("One or more matches not found.");
-            }
-
-            var matchDataPoints = dataPointDtos.Select(dataPointDto => new MatchDataPoint
-            {
-                MatchId = dataPointDto.MatchId,
-                PlayerName = dataPointDto.PlayerName,
-                GamePoints = dataPointDto.GamePoints,
-                PointsDescription = dataPointDto.PointsDescription,
-                CreatedDate = DateTime.Now  // Assuming you want to set the created date here
-            }).ToList();
-
-            context.MatchDataPoints.AddRange(matchDataPoints);
-            await context.SaveChangesAsync();
-
-            // Optionally, map to DTOs before returning
-            var createdDataPointsDtos = matchDataPoints.Select(dp => new MatchDataPointDto
-            {
-                Id = dp.Id,
-                MatchId = dp.MatchId,
-                PlayerName = dp.PlayerName,
-                GamePoints = dp.GamePoints,
-                PointsDescription = dp.PointsDescription,
-                CreatedDate = dp.CreatedDate,
-                GameName = dp.Match.Game.GameName  // Assuming you include GameName in the DTO
-            }).ToList();
-
-            return Results.Created("/match-data-points", createdDataPointsDtos);
-        })
-        .WithName("PostMultipleMatchDataPoints")
-        .WithTags("MatchDataPoints", "POST Endpoints")
-        .WithOpenApi();
-
-        
-        app.MapGet("/match-data-points-all", async (GameDBContext context) =>
-        {
-            var matchDataPoints = await context.MatchDataPoints
-                .Include(dp => dp.Match)       // Include the related Match entity
-                .ThenInclude(m => m.Game)      // Then include the related Game entity
-                .Select(dp => new MatchDataPointDto
-                {
-                    Id = dp.Id,
-                    MatchId = dp.MatchId,
-                    PlayerName = dp.PlayerName,
-                    GamePoints = dp.GamePoints,
-                    PointsDescription = dp.PointsDescription,
-                    CreatedDate = dp.CreatedDate,
-                    GameId = dp.Match.GameId,  // Access GameId through Match
-                    GameName = dp.Match.Game.GameName  // Access GameName through Match
-                })
-                .ToListAsync();
-
-            return Results.Ok(matchDataPoints);
-        })
-        .WithName("GetMatchDataPoints")
-        .WithTags("MatchDataPoints", "GET Endpoints", "FrontEnd - Mockup")
-        .WithOpenApi();
 
         app.MapPost("/match-data-points-all", async (List<MatchDataPointDto> matchDataPointDtos, GameDBContext context) =>
         {
@@ -168,9 +102,9 @@ public static class MatchDataPointEndpoints
             await context.SaveChangesAsync();
 
             return Results.Created("/match-data-points-all", matchDataPointDtos);
-    })
-    .WithName("PostMatchDataPointsAll")
-    .WithTags("MatchDataPoints", "POST Endpoints", "FrontEnd - Mockup")
-    .WithOpenApi();
+        })
+        .WithName("PostMatchDataPointsAll")
+        .WithTags("3. MatchDataPoints", "POST Endpoints", "9. FrontEnd - Mockup")
+        .WithOpenApi();  
     }
 }

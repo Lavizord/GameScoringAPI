@@ -3,6 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 
+
+public class MatchForGameDto
+{
+    public int MatchId { get; set; }
+    public DateTime MatchDate { get; set; }
+    public string? Notes { get; set; }
+    public bool isFinished { get; set; }
+    public List<MatchDataPointForMatchDto> MatchDataPoints { get; set; } = new List<MatchDataPointForMatchDto>();
+}
+
 public static class GetGameEndpoints
 {
     public static void MapGetGameEndpoints(this WebApplication app)
@@ -19,7 +29,7 @@ public static class GetGameEndpoints
             return Results.Ok(game);
         })
         .WithName("GetGameById")
-        .WithTags("Games", "GET Endpoints", "FrontEnd - Mockup")
+        .WithTags("1. Games", "GET Endpoints", "9. FrontEnd - Mockup")
         .WithOpenApi();
 
 
@@ -37,7 +47,7 @@ public static class GetGameEndpoints
             return Results.Ok(games);
         })
         .WithName("GetAllGames")
-        .WithTags("Games", "GET Endpoints", "FrontEnd - Mockup")
+        .WithTags("1. Games", "GET Endpoints", "9. FrontEnd - Mockup")
         .WithOpenApi();
 
 
@@ -64,18 +74,18 @@ public static class GetGameEndpoints
                 MinPlayers = game.MinPlayers,
                 MaxPlayers = game.MaxPlayers,
                 AverageDuration = game.AverageDuration,
-                Matches = game.Matches.Select(match => new MatchDto
+                Matches = game.Matches.Select(match => new MatchForGameDto
                 {
                     MatchId = match.Id,
-                    GameId = match.GameId,
                     MatchDate = match.MatchDate,
                     Notes = match.Notes,
-                    MatchDataPoints = match.MatchDataPoints.Select(dp => new MatchDataPointDto
+                    MatchDataPoints = match.MatchDataPoints.Select(dp => new MatchDataPointForMatchDto
                     {
-                        MatchId = dp.MatchId,
-                        PlayerName = dp.PlayerName,
-                        GamePoints = dp.GamePoints,
-                        PointsDescription = dp.PointsDescription
+                            Id = dp.Id,
+                            PlayerName = dp.PlayerName,
+                            GamePoints = dp.GamePoints,
+                            PointsDescription = dp.PointsDescription,
+                            CreatedDate = dp.CreatedDate
                     }).ToList()
                 }).ToList()
             }).ToList();
@@ -83,7 +93,7 @@ public static class GetGameEndpoints
             return Results.Ok(gamesWithMatchesDto);
         })
         .WithName("GetGamesWithMatchesAndDataPoints")
-        .WithTags("Games Matches DataPoints", "GET Endpoints")
+        .WithTags("0. Full Dataset", "GET Endpoints")
         .WithOpenApi();
     }
 }

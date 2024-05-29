@@ -12,7 +12,7 @@ namespace GameScoringAPI.Migrations
         {
             migrationBuilder.AlterColumn<string>(
                 name: "Notes",
-                table: "Matches",
+                table: "2. Matches",
                 type: "TEXT",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -20,14 +20,14 @@ namespace GameScoringAPI.Migrations
 
             migrationBuilder.AddColumn<bool>(
                 name: "isFinished",
-                table: "Matches",
+                table: "2. Matches",
                 type: "INTEGER",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AlterColumn<string>(
                 name: "GameDescription",
-                table: "Games",
+                table: "1. Games",
                 type: "TEXT",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -39,11 +39,11 @@ namespace GameScoringAPI.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "isFinished",
-                table: "Matches");
+                table: "2. Matches");
 
             migrationBuilder.AlterColumn<string>(
                 name: "Notes",
-                table: "Matches",
+                table: "2. Matches",
                 type: "TEXT",
                 nullable: false,
                 defaultValue: "",
@@ -53,7 +53,7 @@ namespace GameScoringAPI.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "GameDescription",
-                table: "Games",
+                table: "1. Games",
                 type: "TEXT",
                 nullable: false,
                 defaultValue: "",
