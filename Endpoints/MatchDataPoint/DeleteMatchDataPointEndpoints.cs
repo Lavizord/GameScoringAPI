@@ -26,8 +26,8 @@ public static class DeleteMatchDataPointEndpoints
         (
             "Deletes a single match data point from the database identified by the provided ID. Returns 404 Not Found if the match data point with the specified ID is not found. Upon successful deletion, returns 204 No Content."
         )
-        .Produces(StatusCodes.Status404NotFound, typeof(string), "application/json", "Not Found. The specified match data point ID was not found.")
-        .Produces(StatusCodes.Status204NoContent, typeof(void), "application/json", "No Content. The match data point has been successfully deleted.");
+        .Produces(StatusCodes.Status404NotFound, typeof(string), "application/json")
+        .Produces(StatusCodes.Status204NoContent, typeof(void), "application/json");
 
 
 

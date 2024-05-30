@@ -26,7 +26,9 @@ public static class PostGameEndpoints
         })
         .WithName("PostGame")
         .WithTags("1. Games", "POST Endpoints")
-        .WithOpenApi();
+        .WithOpenApi()
+        .WithDescription("Creates a new game in the database using the provided game data. Returns 201 Created with the URL of the newly created game resource in the 'Location' header and the created game in the response body.")
+        .Produces(StatusCodes.Status201Created, typeof(Game), "application/json");
 
 
         app.MapPost("/games", async (List<GameDto> gameDtos, GameDBContext context) =>
@@ -54,6 +56,9 @@ public static class PostGameEndpoints
         })
         .WithName("PostMultipleGames")
         .WithTags("1. Games", "POST Endpoints", "9. FrontEnd - Mockup")
-        .WithOpenApi();
+        .WithOpenApi()
+        .WithDescription("Creates multiple games in the database using the provided game data. Returns 201 Created with the URL of the newly created games resource in the 'Location' header and the list of created games in the response body.")
+        .Produces(StatusCodes.Status201Created, typeof(List<Game>), "application/json");
+
     }
 }
