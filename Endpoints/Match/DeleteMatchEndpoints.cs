@@ -27,6 +27,12 @@ public static class DeleteMatchEndpoints
         })
         .WithName("DeleteMatchAndAllDataPoints")
         .WithTags("2. Matches", "DELETE Endpoints")
-        .WithOpenApi();
+        .WithOpenApi()
+        .WithDescription
+        (
+            "Deletes a match and all associated data points from the database identified by the provided ID. Returns 404 Not Found if the match with the specified ID is not found. Upon successful deletion, returns 204 No Content."
+        )
+        .Produces(StatusCodes.Status404NotFound, typeof(string), "application/json")
+        .Produces(StatusCodes.Status204NoContent, typeof(void), "application/json");
     }
 }
