@@ -10,11 +10,10 @@ public class MatchForMatchDto
     public DateTime MatchDate { get; set; }
     public string? Notes { get; set; }
     public bool isFinished { get; set; }
-    public List<MatchDataPointForMatchDto> MatchDataPoints { get; set; } = new List<MatchDataPointForMatchDto>();
-    public MatchStatsDto MatchStats { get; set; } = new MatchStatsDto();
+    public List<MatchDataPointForMatchDto>? MatchDataPoints { get; set; } = new List<MatchDataPointForMatchDto>();
+    public MatchStatsDto? MatchStats { get; set; } = new MatchStatsDto();
 
 }
-
 
 public class MatchDataPointForMatchDto
 {

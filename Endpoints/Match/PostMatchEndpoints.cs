@@ -32,7 +32,19 @@ public static class PostMatchEndpoints
             };
             context.Matches.Add(match);
             await context.SaveChangesAsync();
-            return Results.Created($"/matches/{match.Id}", match);
+
+            var returnMatch = new MatchForMatchDto
+            {
+                MatchId = match.Id,
+                GameId = match.GameId,
+                MatchDate = match.MatchDate,
+                Notes = match.Notes,
+                isFinished = match.isFinished,
+                MatchDataPoints = null,
+                MatchStats = null
+            };
+
+            return Results.Created($"/matches/{returnMatch.MatchId}", returnMatch);
         })
         .WithName("PostMatch")
         .WithTags("2. Matches", "POST Endpoints")

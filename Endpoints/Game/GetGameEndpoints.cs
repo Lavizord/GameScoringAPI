@@ -12,17 +12,13 @@ public class MatchForGameDto
     public bool isFinished { get; set; }
     public List<MatchDataPointForMatchDto> MatchDataPoints { get; set; } = new List<MatchDataPointForMatchDto>();
     public MatchStatsDto MatchStats { get; set; } = new MatchStatsDto();
-
 }
 
-// TODO: Finish this DTO. Should be used to handle the game statistics.
 public class MatchStatsDto
 {
     public int TotalGamePoints { get; set; }
     public string WinningPlayer { get; set; }
-
     public Dictionary<string, int> PlayerPoints { get; set; } = new Dictionary<string, int>();
-
 }
 
 public static class GetGameEndpoints
@@ -86,6 +82,7 @@ public static class GetGameEndpoints
                 MinPlayers = game.MinPlayers,
                 MaxPlayers = game.MaxPlayers,
                 AverageDuration = game.AverageDuration,
+                MatchesCount = game.MatchesCount,
                 // TODO: We are starting to repeate this code. Check GetMatchEndoint.cs
                 Matches = game.Matches.Select(match => new MatchForGameDto
                 {
@@ -114,16 +111,24 @@ public static class GetGameEndpoints
                 }).ToList()
             }).ToList();
 
+            // TODO: This bit is definitely repeated.
             // Now let's calculate the winning player for each game
             foreach (var game in gamesWithMatchesDto)
             {
                 foreach (var match in game.Matches)
-                {
-                    // Find the player with the maximum points
-                    var winningPlayer = match.MatchStats.PlayerPoints.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
-                    
-                    // Set the winning player in MatchStatsDto
-                    match.MatchStats.WinningPlayer = winningPlayer;
+                {   
+                    if(match.MatchStats.PlayerPoints.Any())
+                    {
+                        // Find the player with the maximum points
+                        var winningPlayer = match.MatchStats.PlayerPoints.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+                        // Set the winning player in MatchStatsDto
+                        match.MatchStats.WinningPlayer = winningPlayer;
+                    }
+                    else
+                    {
+                        // No players found, set WinningPlayer to null or some default value
+                        match.MatchStats.WinningPlayer = null; // or any default value you prefer
+                    }
                 }
             }
 
