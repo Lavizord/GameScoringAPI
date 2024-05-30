@@ -32,6 +32,9 @@ namespace GameScoringAPI.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("MatchesCount")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("MaxPlayers")
                         .HasColumnType("INTEGER");
 
@@ -40,7 +43,7 @@ namespace GameScoringAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("1. Games");
+                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("Match", b =>
@@ -65,7 +68,7 @@ namespace GameScoringAPI.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("2. Matches");
+                    b.ToTable("Matches");
                 });
 
             modelBuilder.Entity("MatchDataPoint", b =>
@@ -95,13 +98,13 @@ namespace GameScoringAPI.Migrations
 
                     b.HasIndex("MatchId");
 
-                    b.ToTable("3. MatchDataPoints");
+                    b.ToTable("MatchDataPoints");
                 });
 
             modelBuilder.Entity("Match", b =>
                 {
                     b.HasOne("Game", "Game")
-                        .WithMany("2. Matches")
+                        .WithMany("Matches")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -112,7 +115,7 @@ namespace GameScoringAPI.Migrations
             modelBuilder.Entity("MatchDataPoint", b =>
                 {
                     b.HasOne("Match", "Match")
-                        .WithMany("3. MatchDataPoints")
+                        .WithMany("MatchDataPoints")
                         .HasForeignKey("MatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -122,12 +125,12 @@ namespace GameScoringAPI.Migrations
 
             modelBuilder.Entity("Game", b =>
                 {
-                    b.Navigation("2. Matches");
+                    b.Navigation("Matches");
                 });
 
             modelBuilder.Entity("Match", b =>
                 {
-                    b.Navigation("3. MatchDataPoints");
+                    b.Navigation("MatchDataPoints");
                 });
 #pragma warning restore 612, 618
         }

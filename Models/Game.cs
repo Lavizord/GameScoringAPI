@@ -13,10 +13,9 @@ public class Game
     public int MinPlayers { get; set; }
     public int MaxPlayers { get; set; }
     public int AverageDuration { get; set; }
-
+    public int MatchesCount { get; set; }
     public ICollection<Match> Matches { get; set; }  // Navigation property to Matches
 }
-
 public class GameDto
 {
     public int Id { get; set; }  // Add the Id property
@@ -35,5 +34,6 @@ public class GameWithMatchDataPointDto
     public int MinPlayers { get; set; }
     public int MaxPlayers { get; set; }
     public int AverageDuration { get; set; }
+    public int MatchesCount { get; set; }
     public List<MatchForGameDto> Matches { get; set; } = new List<MatchForGameDto>();
 }

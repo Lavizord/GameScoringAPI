@@ -9,9 +9,15 @@ public class GameDBContext : DbContext
     public GameDBContext(DbContextOptions<GameDBContext> options) : base(options)
     {
     }
+    
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.AddInterceptors(new MatchInterceptor());
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        
         modelBuilder.Entity<MatchDataPoint>(entity =>
         {
             entity.HasKey(e => e.Id);

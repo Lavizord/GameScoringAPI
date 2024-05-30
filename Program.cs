@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -11,20 +8,28 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
-{
-    options.DocumentFilter<OrderTagsDocumentFilter>();
-});
+    {
+        options.DocumentFilter<OrderTagsDocumentFilter>();
+    });
 
 // Configure CORS
 builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigins", builder =>
     {
-        builder.WithOrigins("http://localhost:3000", "https://lively-bay-05f413403.5.azurestaticapps.net")
-               .AllowAnyMethod()
-               .AllowAnyHeader();
+        options.AddPolicy("AllowSpecificOrigins", builder =>
+        {
+            builder.WithOrigins("http://localhost:3000", "https://lively-bay-05f413403.5.azurestaticapps.net")
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
     });
-});
+
+
+//builder.Services.AddControllers()
+//    .AddJsonOptions(options =>
+//    {
+//        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+//    });
+
 
 // Construct the database path
 var dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "games.db");
