@@ -9,6 +9,7 @@ public class MatchForMatchDto
     public int GameId { get; set; }
     public DateTime MatchDate { get; set; }
     public string? Notes { get; set; }
+    public int PlayerCount { get; set; }
     public bool isFinished { get; set; }
     public List<MatchDataPointForMatchDto>? MatchDataPoints { get; set; } = new List<MatchDataPointForMatchDto>();
     public MatchStatsDto? MatchStats { get; set; } = new MatchStatsDto();
@@ -42,6 +43,7 @@ public static class GetMatchEndpoints
                     MatchDate = m.MatchDate,
                     Notes = m.Notes,
                     isFinished = m.isFinished,
+                    PlayerCount = m.PlayerCount,
                     MatchDataPoints = includeDataPoints == true
                         ? m.MatchDataPoints.Select(dp => new MatchDataPointForMatchDto
                         {
@@ -81,6 +83,7 @@ public static class GetMatchEndpoints
                     MatchDate = m.MatchDate,
                     Notes = m.Notes,
                     isFinished = m.isFinished,
+                    PlayerCount = m.PlayerCount,
                     MatchDataPoints = includeDataPoints == true
                         ? m.MatchDataPoints.Select(dp => new MatchDataPointForMatchDto
                         {
