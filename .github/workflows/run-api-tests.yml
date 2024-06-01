@@ -2,10 +2,7 @@ name: Run API Tests
 
 on:
   pull_request:
-    branches:
-      - main
-      - develop
-      - feature/*
+    types: [opened, synchronize, reopened, closed]
 
 jobs:
   build:
