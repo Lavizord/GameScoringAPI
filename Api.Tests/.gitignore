@@ -1,0 +1,114 @@
+# Ignore Visual Studio temporary files, build results, and
+# build directories
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+vssver.scc
+.vscode/
+.vscode-test/
+.vscode-test-insiders/
+.vs/
+_TP2Checkpoints/
+_TP2Output/
+.vscode/
+.vscode-test/
+.vscode-test-insiders/
+.vs/
+.git/
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono auto generated files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# NUGET
+*.nupkg
+*.snupkg
+.nupkg
+
+# Mac OS X generated files
+*.DS_Store
+
+# Generated test binary, unittest.log, nunit
+TestResult.xml
+TestResults/
+Test*.dll
+Test*.exe
+Test*.app
+
+# Uncomment if using .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.vspscc
+.vspscc
+
+# Rider
+.idea/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+
+# NuGet
+*.nupkg
+packages/
+*.snupkg
+.nuget/packages/
+.nuget/NuGet.exe
+*.nupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Avoid uploading macOS resource forks
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear as a result of unmerged
+# content, such as when using git add -p
+*.orig
+
+# Files that might appear during merge conflicts
+*.rej
+
+# For WebAPI Projects
+appsettings.json
+appsettings.Development.json
+
+# If using VS Code for development
+.vscode/
+
+
+sqlite3.exe
+games.db
