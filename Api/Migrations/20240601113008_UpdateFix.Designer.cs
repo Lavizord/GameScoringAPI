@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameScoringAPI.Migrations
 {
     [DbContext(typeof(GameDBContext))]
-    [Migration("20240529125802_match-isFinished-added")]
-    partial class matchisFinishedadded
+    [Migration("20240601113008_UpdateFix")]
+    partial class UpdateFix
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,6 +34,9 @@ namespace GameScoringAPI.Migrations
                     b.Property<string>("GameName")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("MatchesCount")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("MaxPlayers")
                         .HasColumnType("INTEGER");
@@ -60,6 +63,9 @@ namespace GameScoringAPI.Migrations
 
                     b.Property<string>("Notes")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("PlayerCount")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("isFinished")
                         .HasColumnType("INTEGER");
