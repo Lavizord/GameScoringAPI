@@ -9,12 +9,12 @@ public static class SqlTriggers
         AFTER INSERT ON matches
         BEGIN
             UPDATE GAMES
-            SET MatchCount = (
+            SET MatchesCount = (
                 SELECT COUNT(*)
                 FROM matches
-                WHERE matches.GameID = COALESCE(NEW.GameID)
+                WHERE matches.GameID = NEW.GameID
             )
-            WHERE Id = COALESCE(NEW.GameID);
+            WHERE Id = NEW.GameID;
         END;
     ";
     
@@ -27,7 +27,7 @@ public static class SqlTriggers
         AFTER DELETE ON matches
         BEGIN
             UPDATE GAMES
-            SET MatchCount = (
+            SET MatchesCount = (
                 SELECT COUNT(*)
                 FROM matches
                 WHERE matches.GameID = COALESCE(NEW.GameID, OLD.GameID)
@@ -66,9 +66,9 @@ public static class SqlTriggers
             SET PlayerCount = (
                 SELECT COUNT(DISTINCT PlayerName)
                 FROM MatchDataPoints
-                WHERE matches.Id = COALESCE(NEW.MatchId)
+                WHERE matches.Id = NEW.MatchId
             )
-            WHERE Id = COALESCE(NEW.MatchId);
+            WHERE Id = NEW.MatchId;
         END;
     ";
 }
