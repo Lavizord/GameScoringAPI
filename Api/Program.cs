@@ -52,7 +52,8 @@ using (var scope = app.Services.CreateScope())
     //dbContext.Database.EnsureDeleted();
 
     // Create a new database based on the model definitions
-    //  dbContext.Database.EnsureCreated();
+    if(!File.Exists(dbPath))
+        dbContext.Database.EnsureCreated();
 
     //Run the migrtions, if any.
     //dbContext.Database.Migrate();
