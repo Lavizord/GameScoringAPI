@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameScoringAPI", "Api\GameScoringAPI.csproj", "{EF748244-32B1-4743-B274-C8A122CC5B4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Tests", "Api.Tests\Api.Tests.csproj", "{960C9714-955A-4C20-8CFC-A874728CB50B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF748244-32B1-4743-B274-C8A122CC5B4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF748244-32B1-4743-B274-C8A122CC5B4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF748244-32B1-4743-B274-C8A122CC5B4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF748244-32B1-4743-B274-C8A122CC5B4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{960C9714-955A-4C20-8CFC-A874728CB50B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{960C9714-955A-4C20-8CFC-A874728CB50B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{960C9714-955A-4C20-8CFC-A874728CB50B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{960C9714-955A-4C20-8CFC-A874728CB50B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
