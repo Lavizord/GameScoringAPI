@@ -10,6 +10,7 @@ public class MatchForGameDto
     public DateTime MatchDate { get; set; }
     public string? Notes { get; set; }
     public bool isFinished { get; set; }
+    public int PlayerCount { get; set; }
     public List<MatchDataPointForMatchDto> MatchDataPoints { get; set; } = new List<MatchDataPointForMatchDto>();
     public MatchStatsDto MatchStats { get; set; } = new MatchStatsDto();
 }
@@ -90,6 +91,7 @@ public static class GetGameEndpoints
                     MatchDate = match.MatchDate,
                     Notes = match.Notes,
                     isFinished = match.isFinished,
+                    PlayerCount = match.PlayerCount,
                     MatchDataPoints = match.MatchDataPoints.Select(dp => new MatchDataPointForMatchDto
                     {
                         Id = dp.Id,

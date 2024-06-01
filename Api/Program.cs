@@ -49,11 +49,11 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<GameDBContext>();
 
     // Delete the existing database
-    dbContext.Database.EnsureDeleted();
+    //dbContext.Database.EnsureDeleted();
 
     // Create a new database based on the model definitions
-    //if(!File.Exists(dbPath))
-    dbContext.Database.EnsureCreated();
+    if(!File.Exists(dbPath))
+        dbContext.Database.EnsureCreated();
 
     //Run the migrtions, if any.
     //dbContext.Database.Migrate();
