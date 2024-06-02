@@ -1,25 +1,25 @@
 using Xunit;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Newtonsoft.Json.Linq;
-using System.Net.Http.Json; // Import the necessary namespace for JSON parsing
+using Moq;
 
 namespace Api.Tests
 {
-    public class GetGameTests
+    public class GameGetTests :TestBase
     {
+        public GameGetTests(WebApplicationFactory<Program> factory) : base(factory)
+        {
+        }
+        
         [Fact]
         public async Task GetGameById_ReturnsGameIfExists()
         {
-            await using var application = new WebApplicationFactory<Program>();
-
-            // Arrange
-            var client = application.CreateClient();
-
             int gameId = 1; // Change to a valid game ID for your test
-            var response = await client.GetAsync($"/game/{gameId}");
+            var response = await Client.GetAsync($"/game/{gameId}");
+            
+            SeedGamesData();
 
             // Assert
-            Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
+            Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
             // Add more assertions to verify the content of the response
             
             /*
