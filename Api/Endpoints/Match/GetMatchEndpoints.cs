@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Mvc;
+
 
 public class MatchForMatchDto
 {
@@ -75,6 +73,8 @@ public static class GetMatchEndpoints
                 query = query.Where(m => m.GameId == gameId.Value);
             
             // TODO: We are starting to repeate this code. Check GetGameEndoint.cs
+            // Tried to implement a MatchMapper class, to avoid using AutoMapper, but It didnt seem to work.
+            // This repeated code is bugging me tho...
             var matchesQuery = query
                 .Select(m => new MatchForMatchDto
                 {
