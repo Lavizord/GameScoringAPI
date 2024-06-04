@@ -75,7 +75,11 @@ namespace Api.Tests
         protected void SeedGamesData()
         {   
             // This will load the ./Data/GamesGetTests/GamesData.Json
-            var dto = GetDto<MatchDataPointDto>("GamesData");
+            var dto = GetDto<GameWithMatchDataPointDto[]>("GamesData");
+            foreach (GameWithMatchDataPointDto game in dto)
+            {
+                
+            }
         }
     }
 }
