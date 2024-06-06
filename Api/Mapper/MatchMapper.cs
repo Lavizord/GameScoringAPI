@@ -8,6 +8,7 @@ namespace GameScoringAPI.Mapper;
 /// </summary>
 public static class MatchMapper
 {
+
     /// <summary>
     /// Method used the .Select() method of the IQueryable class to map the Match model to the MatchDto, 
     /// if we provide the includeDataPoints as true, it also resolves and maps the MatchDataPoint
@@ -16,7 +17,7 @@ public static class MatchMapper
     /// <param name="match">The IQueryable<Match> of the database model, to be selected into thhe DTO.</param>
     /// <param name="includeDataPoints"> If we shouuld include the child objects includeDataPoints when doing the Select.</param>
     /// <returns></returns>
-    public static IQueryable<MatchForMatchDto> MapToDTO(IQueryable<Match>? match, bool? includeDataPoints)
+    public static IQueryable<MatchForMatchDto> SelectAndMapToDTO(IQueryable<Match>? match, bool? includeDataPoints)
     {   
           return match
                 .Select(m => new MatchForMatchDto
@@ -39,6 +40,42 @@ public static class MatchMapper
                         : new List<MatchDataPointForMatchDto>()
                 });
     }
+
+
+    public static MatchStatsDto CreateMathStatsFor(MatchForMatchDto matchDto)
+    {
+        return new MatchStatsDto
+            {
+                TotalGamePoints = matchDto.MatchDataPoints.Sum(dp => dp.GamePoints),
+                PlayerPoints = matchDto.MatchDataPoints
+                    .GroupBy(dp => dp.PlayerName)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Sum(dp => dp.GamePoints)
+                    )
+            };
+    }
+
+    /// <summary>
+    /// Modifies a Match after calculating the winning player of the Match, calculations are based on the MatchStats of the Match
+    /// </summary>
+    /// <param name="matchDto"></param>
+    public static void CalculateWinnerFor(MatchForMatchDto matchDto)
+    {
+         // Check if PlayerPoints dictionary is not empty
+        if (matchDto.MatchStats.PlayerPoints.Any())
+        {
+            // Find the player with the maximum points  // Set the winning player in MatchStatsDto
+            string winningPlayer = matchDto.MatchStats.PlayerPoints
+                .Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+            matchDto.MatchStats.WinningPlayer = winningPlayer;
+        }
+        else    // No players found, set WinningPlayer to null;
+            matchDto.MatchStats.WinningPlayer = null; 
+    }
+
+
+
 /*
     public static MatchDetailsDTO MapToDetailsDTO(Match match, Game game, List<MatchDataPoint> matchDataPoints)
     {

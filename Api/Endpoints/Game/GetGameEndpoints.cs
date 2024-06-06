@@ -59,23 +59,103 @@ public static class GetGameEndpoints
         .WithTags("1. Games", "GET Endpoints", "9. FrontEnd - Mockup")
         .WithOpenApi();
 
+        /*
+        app.MapGet("/games-with-matches-and-data-points", async (string? gameName, DateTime? matchDateAfter, DateTime? matchDateBefore, GameDBContext context) =>
+        {
+            IQueryable<Game> gamesQuery = context.Games.Include(g => g.Matches).ThenInclude(m => m.MatchDataPoints);
+            //IQueryable<Game> gamesQuery = context.Games;
+
+            if (!string.IsNullOrEmpty(gameName))
+                gamesQuery = gamesQuery.Where(g => g.GameName.Contains(gameName));
+            if (matchDateAfter.HasValue)
+                gamesQuery = gamesQuery.Where(g => g.Matches.Any(m => m.MatchDate >= matchDateAfter));
+            if (matchDateBefore.HasValue)
+                gamesQuery = gamesQuery.Where(g => g.Matches.Any(m => m.MatchDate <= matchDateBefore));
+
+            List<Game> games = await gamesQuery.ToListAsync();
+
+            List<GameWithMatchDataPointDto> gamesWithMatchesDto = games.Select(game => new GameWithMatchDataPointDto
+            {
+                Id = game.Id,
+                GameName = game.GameName,
+                GameDescription = game.GameDescription,
+                MinPlayers = game.MinPlayers,
+                MaxPlayers = game.MaxPlayers,
+                AverageDuration = game.AverageDuration,
+                MatchesCount = game.MatchesCount,
+                // TODO: We are starting to repeate this code. Check GetMatchEndoint.cs
+                Matches = game.Matches.Select(match => new MatchForGameDto
+                {
+                    MatchId = match.Id,
+                    MatchDate = match.MatchDate,
+                    Notes = match.Notes,
+                    isFinished = match.isFinished,
+                    PlayerCount = match.PlayerCount,
+                    MatchDataPoints = match.MatchDataPoints.Select(dp => new MatchDataPointForMatchDto
+                    {
+                        Id = dp.Id,
+                        PlayerName = dp.PlayerName,
+                        GamePoints = dp.GamePoints,
+                        PointsDescription = dp.PointsDescription,
+                        CreatedDate = dp.CreatedDate
+                    }).ToList(),
+                    MatchStats = new MatchStatsDto
+                    {
+                        TotalGamePoints = match.MatchDataPoints.Sum(dp => dp.GamePoints),
+                        PlayerPoints = match.MatchDataPoints
+                            .GroupBy(dp => dp.PlayerName)
+                            .ToDictionary(
+                                g => g.Key,
+                                g => g.Sum(dp => dp.GamePoints)
+                            )
+                    }
+                }).ToList()
+            }).ToList();
+
+            
+            // TODO: This bit is definitely repeated.
+            // Now let's calculate the winning player for each game
+            foreach (var game in gamesWithMatchesDto)
+            {
+                foreach (var match in game.Matches)
+                {   
+                    if(match.MatchStats.PlayerPoints.Any())
+                    {
+                        // Find the player with the maximum points
+                        var winningPlayer = match.MatchStats.PlayerPoints.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+                        // Set the winning player in MatchStatsDto
+                        match.MatchStats.WinningPlayer = winningPlayer;
+                    }
+                    else
+                    {
+                        // No players found, set WinningPlayer to null or some default value
+                        match.MatchStats.WinningPlayer = null; // or any default value you prefer
+                    }
+                }
+            }
+
+            return Results.Ok(gamesWithMatchesDto);
+        })
+        .WithName("GetGamesWithMatchesAndDataPoints")
+        .WithTags("0. Full Dataset", "GET Endpoints")
+        .WithOpenApi();
+        */
 
         app.MapGet("/games-with-matches-and-data-points", async (string? gameName, DateTime? matchDateAfter, DateTime? matchDateBefore, GameDBContext context) =>
         {
             IQueryable<Game> gamesQuery = context.Games.Include(g => g.Matches).ThenInclude(m => m.MatchDataPoints);
+            //IQueryable<Game> gamesQuery = context.Games;
 
             if (!string.IsNullOrEmpty(gameName))
                 gamesQuery = gamesQuery.Where(g => g.GameName.Contains(gameName));
-
             if (matchDateAfter.HasValue)
                 gamesQuery = gamesQuery.Where(g => g.Matches.Any(m => m.MatchDate >= matchDateAfter));
-            
             if (matchDateBefore.HasValue)
                 gamesQuery = gamesQuery.Where(g => g.Matches.Any(m => m.MatchDate <= matchDateBefore));
 
-            var games = await gamesQuery.ToListAsync();
+            List<Game> games = await gamesQuery.ToListAsync();
 
-            var gamesWithMatchesDto = games.Select(game => new GameWithMatchDataPointDto
+            List<GameWithMatchDataPointDto> gamesWithMatchesDto = games.Select(game => new GameWithMatchDataPointDto
             {
                 Id = game.Id,
                 GameName = game.GameName,
@@ -139,5 +219,6 @@ public static class GetGameEndpoints
         .WithName("GetGamesWithMatchesAndDataPoints")
         .WithTags("0. Full Dataset", "GET Endpoints")
         .WithOpenApi();
+    
     }
 }

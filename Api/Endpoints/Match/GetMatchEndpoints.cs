@@ -67,53 +67,27 @@ public static class GetMatchEndpoints
 
         app.MapGet("/matches", async (bool? includeDataPoints, int? gameId, GameDBContext context) =>
         {
-            var query = context.Matches.AsQueryable();
-            // Apply filter if gameId is provided
-            if (gameId.HasValue)
+            // Our Queriyable Mathch and corresponding DTO.
+            IQueryable<MatchForMatchDto> matchesQuery;
+            IQueryable<Match> query = context.Matches.AsQueryable();
+            // Apply filter if gameId is provided.
+            if (gameId.HasValue) 
                 query = query.Where(m => m.GameId == gameId.Value);
-            
-            var matchesQuery = MatchMapper.MapToDTO(query, includeDataPoints);
 
-            var matches = await matchesQuery.ToListAsync();
-
-            if (includeDataPoints is not null)
-                if((bool)includeDataPoints)
+            // Selects and mapps the data from the models to the DTOs.
+            matchesQuery = MatchMapper.SelectAndMapToDTO(query, includeDataPoints);
+            // Execute our query.
+            List<MatchForMatchDto> matches = await matchesQuery.ToListAsync();
+            // Include datapoints if necessary.
+            if (includeDataPoints is not null && (bool)includeDataPoints) 
+                foreach (MatchForMatchDto match in matches)
                 {
-                    foreach (var match in matches)
-                    {
-                        match.MatchStats = new MatchStatsDto
-                        {
-                            TotalGamePoints = match.MatchDataPoints.Sum(dp => dp.GamePoints),
-                            PlayerPoints = match.MatchDataPoints
-                                .GroupBy(dp => dp.PlayerName)
-                                .ToDictionary(
-                                    g => g.Key,
-                                    g => g.Sum(dp => dp.GamePoints)
-                                )
-                        };
-                    }
+                    match.MatchStats = MatchMapper.CreateMathStatsFor(match);
+                    // Now let's calculate the winning player for each match
+                    MatchMapper.CalculateWinnerFor(match);
                 }
-            
-            // Now let's calculate the winning player for each match
-            foreach (var match in matches)
-            {
-                // Check if PlayerPoints dictionary is not empty
-                if (match.MatchStats.PlayerPoints.Any())
-                {
-                    // Find the player with the maximum points
-                    var winningPlayer = match.MatchStats.PlayerPoints.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
-                    // Set the winning player in MatchStatsDto
-                    match.MatchStats.WinningPlayer = winningPlayer;
-                }
-                else
-                {
-                    // No players found, set WinningPlayer to null or some default value
-                    match.MatchStats.WinningPlayer = null; // or any default value you prefer
-                }
-            }
-            
-
-            if (matches == null || matches.Count == 0)
+            // Final endpoint not found validation.            
+            if(matches == null || matches.Count == 0)
                 return Results.NotFound($"No matches found.");
 
             return Results.Ok(matches);
