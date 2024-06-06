@@ -1,3 +1,4 @@
+using GameScoringAPI.Mapper;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -67,39 +68,15 @@ public static class GetMatchEndpoints
         app.MapGet("/matches", async (bool? includeDataPoints, int? gameId, GameDBContext context) =>
         {
             var query = context.Matches.AsQueryable();
-
             // Apply filter if gameId is provided
             if (gameId.HasValue)
                 query = query.Where(m => m.GameId == gameId.Value);
             
-            // TODO: We are starting to repeate this code. Check GetGameEndoint.cs
-            // Tried to implement a MatchMapper class, to avoid using AutoMapper, but It didnt seem to work.
-            // This repeated code is bugging me tho...
-            var matchesQuery = query
-                .Select(m => new MatchForMatchDto
-                {
-                    MatchId = m.Id,
-                    GameId = m.GameId,
-                    MatchDate = m.MatchDate,
-                    Notes = m.Notes,
-                    isFinished = m.isFinished,
-                    PlayerCount = m.PlayerCount,
-                    MatchDataPoints = includeDataPoints == true
-                        ? m.MatchDataPoints.Select(dp => new MatchDataPointForMatchDto
-                        {
-                            Id = dp.Id,
-                            PlayerName = dp.PlayerName,
-                            GamePoints = dp.GamePoints,
-                            PointsDescription = dp.PointsDescription,
-                            CreatedDate = dp.CreatedDate
-                        }).ToList()
-                        : new List<MatchDataPointForMatchDto>()
-                });
+            var matchesQuery = MatchMapper.MapToDTO(query, includeDataPoints);
 
             var matches = await matchesQuery.ToListAsync();
 
             if (includeDataPoints is not null)
-            {
                 if((bool)includeDataPoints)
                 {
                     foreach (var match in matches)
@@ -116,7 +93,7 @@ public static class GetMatchEndpoints
                         };
                     }
                 }
-            }
+            
             // Now let's calculate the winning player for each match
             foreach (var match in matches)
             {
