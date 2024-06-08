@@ -1,7 +1,6 @@
 using GameScoringAPI.Mapper;
 using Microsoft.EntityFrameworkCore;
 
-
 public class MatchForMatchDto
 {
     public int MatchId { get; set; }
@@ -31,36 +30,32 @@ public static class GetMatchEndpoints
     {    
         app.MapGet("/match/{id}", async (int id, bool? includeDataPoints, GameDBContext context) =>
         {
-            var query = context.Matches.AsQueryable();
+            // Our Queriyable Mathch and corresponding DTO.
+            IQueryable<MatchForMatchDto> matchesQuery;
+            IQueryable<Match> query = context.Matches.AsQueryable();
+
             query = query.Where(m => m.Id == id);
 
-            var match = await query
-                .Select(m => new MatchForMatchDto
-                {
-                    MatchId = m.Id,
-                    GameId = m.GameId,
-                    MatchDate = m.MatchDate,
-                    Notes = m.Notes,
-                    isFinished = m.isFinished,
-                    PlayerCount = m.PlayerCount,
-                    MatchDataPoints = includeDataPoints == true
-                        ? m.MatchDataPoints.Select(dp => new MatchDataPointForMatchDto
-                        {
-                            Id = dp.Id,
-                            PlayerName = dp.PlayerName,
-                            GamePoints = dp.GamePoints,
-                            PointsDescription = dp.PointsDescription,
-                            CreatedDate = dp.CreatedDate
-                        }).ToList()
-                        : new List<MatchDataPointForMatchDto>()
-                })
-                .FirstOrDefaultAsync();
+            // Selects and mapps the data from the models to the DTOs.
+            matchesQuery = MatchMapper.SelectAndMapToDTO(query, includeDataPoints);
+
+            // Execute our query.
+            MatchForMatchDto? match = await matchesQuery.FirstOrDefaultAsync();
+           
             if (match == null)
                 return Results.NotFound($"Match with ID {id} not found.");
 
+            // Include datapoints if necessary.
+            if (includeDataPoints is not null && (bool)includeDataPoints) 
+            {
+                match.MatchStats = MatchMapper.CreateMathStatsFor(match);
+                // Now let's calculate the winning player for each match
+                MatchMapper.CalculateWinnerFor(match);
+            }
+
             return Results.Ok(match);
         })
-        .WithName("GetMatches")
+        .WithName("GetMatch")
         .WithTags("2. Matches", "GET Endpoints")
         .WithOpenApi(); 
 
@@ -70,14 +65,17 @@ public static class GetMatchEndpoints
             // Our Queriyable Mathch and corresponding DTO.
             IQueryable<MatchForMatchDto> matchesQuery;
             IQueryable<Match> query = context.Matches.AsQueryable();
+            
             // Apply filter if gameId is provided.
             if (gameId.HasValue) 
                 query = query.Where(m => m.GameId == gameId.Value);
 
             // Selects and mapps the data from the models to the DTOs.
             matchesQuery = MatchMapper.SelectAndMapToDTO(query, includeDataPoints);
+
             // Execute our query.
             List<MatchForMatchDto> matches = await matchesQuery.ToListAsync();
+
             // Include datapoints if necessary.
             if (includeDataPoints is not null && (bool)includeDataPoints) 
                 foreach (MatchForMatchDto match in matches)
@@ -86,6 +84,7 @@ public static class GetMatchEndpoints
                     // Now let's calculate the winning player for each match
                     MatchMapper.CalculateWinnerFor(match);
                 }
+                
             // Final endpoint not found validation.            
             if(matches == null || matches.Count == 0)
                 return Results.NotFound($"No matches found.");
