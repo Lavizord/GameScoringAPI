@@ -15,22 +15,20 @@ namespace Api.Tests
         {
             int gameId = 1; // Change to a valid game ID for your test
             var response = await Client.GetAsync($"/game/{gameId}");
-            
-            SeedGamesData();
 
             // Assert
             Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
-            // Add more assertions to verify the content of the response
-            
-            /*
+
+            // Read the response content as a string
+            var jsonResponseString = await response.Content.ReadAsStringAsync();
+
             // Parse the JSON response into a JObject
-            var jsonResponse = JObject.Parse(response.Content.ToString());
+            var jsonResponse = Newtonsoft.Json.Linq.JObject.Parse(jsonResponseString);
 
             // Assert specific properties or values in the parsed JSON object
-            Assert.Equal(gameId, jsonResponse["id"].Value<int>());
-            Assert.Equal("Example Game Name", jsonResponse["name"].Value<string>());
+            Assert.Equal(gameId, jsonResponse["id"]);
+            Assert.Equal("Example Game Name", jsonResponse["gameName"]);
             // Add more assertions as needed
-            */
         }
     }
 }

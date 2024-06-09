@@ -16,57 +16,6 @@
     "minPlayers": 0,
     "maxPlayers": 0,
     "averageDuration": 0,
-    "matchesCount": 1,
-    "matches": [
-      {
-        "matchId": 1,
-        "matchDate": "0001-01-01T00:00:00",
-        "notes": "Teste01",
-        "isFinished": false,
-        "playerCount": 3,
-        "matchDataPoints": [
-          {
-            "id": 1,
-            "playerName": "Pedro",
-            "gamePoints": 1,
-            "pointsDescription": "Cartas",
-            "createdDate": "2024-06-01T12:22:29.6937305"
-          },
-          {
-            "id": 2,
-            "playerName": "Miguel ",
-            "gamePoints": 6,
-            "pointsDescription": "Estradas",
-            "createdDate": "2024-06-01T12:36:55.5156361"
-          },
-          {
-            "id": 3,
-            "playerName": "Asa",
-            "gamePoints": 5,
-            "pointsDescription": "Estradas",
-            "createdDate": "2024-06-01T15:07:02.1934773"
-          }
-        ],
-        "matchStats": {
-          "totalGamePoints": 12,
-          "winningPlayer": "Miguel ",
-          "playerPoints": {
-            "Pedro": 1,
-            "Miguel ": 6,
-            "Asa": 5
-          }
-        }
-      }
-    ]
-  },
-  {
-    "id": 3,
-    "gameName": "string",
-    "gameDescription": "string",
-    "minPlayers": 0,
-    "maxPlayers": 0,
-    "averageDuration": 0,
-    "matchesCount": 0,
-    "matches": []
+    "matchesCount": 1
   }
 ]

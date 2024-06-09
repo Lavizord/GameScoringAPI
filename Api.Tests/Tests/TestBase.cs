@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Xunit;
 
 namespace Api.Tests
@@ -47,39 +48,44 @@ namespace Api.Tests
             DbContext.Database.EnsureCreated();
 
             //SeedTestData();
+            SeedGamesData();
+        }   
 
+        private JsonSerializerOptions GetOptions()
+        {
+            return new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                ReadCommentHandling = JsonCommentHandling.Skip,
+                AllowTrailingCommas = true
+            };
         }
 
-        public T GetDto<T>(string name)
+        public List<T> GetDto<T>(string name)
         {
             var directory = this.GetType().Name;
             var jsonDto = File.ReadAllText($"./Data/{directory}/{name}.json");
-            return JsonSerializer.Deserialize<T>(jsonDto);
+            return JsonSerializer.Deserialize<List<T>>(jsonDto, GetOptions());
         }
-
-
-        // Seed initial test data
-        protected void SeedTestData()
-        {
-            // Add initial seeding logic here
-            DbContext.Games.Add(new Game
-            {
-                GameName = "ExistingGame",
-                GameDescription = "Existing game description."
-            });
-
-            DbContext.SaveChanges();
-        }
-
 
         protected void SeedGamesData()
-        {   
+        {
             // This will load the ./Data/GamesGetTests/GamesData.Json
-            var dto = GetDto<GameWithMatchDataPointDto[]>("GamesData");
-            foreach (GameWithMatchDataPointDto game in dto)
+            var dto = GetDto<GameDto>("GamesData");
+            foreach (GameDto game in dto)
             {
-                
+                DbContext.Games.Add(new Game
+                {
+                    GameName = game.GameName,
+                    GameDescription = game.GameDescription,
+                    MinPlayers = game.MinPlayers,
+                    MaxPlayers = game.MaxPlayers,
+                    AverageDuration = game.AverageDuration,
+                    MatchesCount = game.MatchesCount
+                });
             }
+            DbContext.SaveChanges();
         }
     }
 }

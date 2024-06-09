@@ -21,8 +21,8 @@ namespace Api.Tests
                 GameDescription = "This is a test game description."
             });
         
-            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-            //Assert.Equal("\"Maarten Balliauw created.\"", await result.Content.ReadAsStringAsync());
+            Assert.Equal(HttpStatusCode.Created, result.StatusCode);
+            // TODO: Acert that returned data was the same as the correct one?
         }
     }
 }
