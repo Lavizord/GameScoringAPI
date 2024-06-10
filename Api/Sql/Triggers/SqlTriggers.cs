@@ -36,7 +36,6 @@ public static class SqlTriggers
         END;
     ";
     
-    // TODO: Finish this and then run migration.
     public const string MatchesDataPointTriggerDelete = @"
        -- Drop the trigger if it exists
         DROP TRIGGER IF EXISTS delete_match_player_count;
