@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
-
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -58,11 +59,17 @@ using (var scope = app.Services.CreateScope())
     //Run the migrtions, if any.
     //dbContext.Database.Migrate();
 
-    // Execute the SQL to create triggers
-    dbContext.Database.ExecuteSqlRaw(SqlTriggers.MatchesTriggerInsert);
-    dbContext.Database.ExecuteSqlRaw(SqlTriggers.MatchesTriggerDelete);
-    dbContext.Database.ExecuteSqlRaw(SqlTriggers.MatchesDataPointTriggerDelete);
-    dbContext.Database.ExecuteSqlRaw(SqlTriggers.MatchesDataPointTriggerInsert);
+    // This is to make sure the database context supports raw SQL.
+    // Since we have unit tests setup, and we change the database to be in memory during the tests,
+    // rawsql cant be executed on them.
+    if (dbContext.Database.IsRelational())
+    {
+        // Execute the SQL to create triggers
+        dbContext.Database.ExecuteSqlRaw(SqlTriggers.MatchesTriggerInsert);
+        dbContext.Database.ExecuteSqlRaw(SqlTriggers.MatchesTriggerDelete);
+        dbContext.Database.ExecuteSqlRaw(SqlTriggers.MatchesDataPointTriggerDelete);
+        dbContext.Database.ExecuteSqlRaw(SqlTriggers.MatchesDataPointTriggerInsert);
+    }
 }
 
 app.UseSwagger();

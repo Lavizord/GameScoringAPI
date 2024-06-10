@@ -58,24 +58,23 @@ public static class GetGameEndpoints
         .WithName("GetAllGames")
         .WithTags("1. Games", "GET Endpoints", "9. FrontEnd - Mockup")
         .WithOpenApi();
-
+        
 
         app.MapGet("/games-with-matches-and-data-points", async (string? gameName, DateTime? matchDateAfter, DateTime? matchDateBefore, GameDBContext context) =>
         {
             IQueryable<Game> gamesQuery = context.Games.Include(g => g.Matches).ThenInclude(m => m.MatchDataPoints);
+            //IQueryable<Game> gamesQuery = context.Games;
 
             if (!string.IsNullOrEmpty(gameName))
                 gamesQuery = gamesQuery.Where(g => g.GameName.Contains(gameName));
-
             if (matchDateAfter.HasValue)
                 gamesQuery = gamesQuery.Where(g => g.Matches.Any(m => m.MatchDate >= matchDateAfter));
-            
             if (matchDateBefore.HasValue)
                 gamesQuery = gamesQuery.Where(g => g.Matches.Any(m => m.MatchDate <= matchDateBefore));
 
-            var games = await gamesQuery.ToListAsync();
+            List<Game> games = await gamesQuery.ToListAsync();
 
-            var gamesWithMatchesDto = games.Select(game => new GameWithMatchDataPointDto
+            List<GameWithMatchDataPointDto> gamesWithMatchesDto = games.Select(game => new GameWithMatchDataPointDto
             {
                 Id = game.Id,
                 GameName = game.GameName,
@@ -139,5 +138,6 @@ public static class GetGameEndpoints
         .WithName("GetGamesWithMatchesAndDataPoints")
         .WithTags("0. Full Dataset", "GET Endpoints")
         .WithOpenApi();
+    
     }
 }

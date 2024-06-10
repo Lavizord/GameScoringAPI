@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
 
 public class Game
 {
@@ -24,6 +23,7 @@ public class GameDto
     public int MinPlayers { get; set; }
     public int MaxPlayers { get; set; }
     public int AverageDuration { get; set; }
+    public int MatchesCount { get; set; }
 }
 
 public class GameWithMatchDataPointDto

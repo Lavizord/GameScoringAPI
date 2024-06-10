@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 public static class PostGameEndpoints
@@ -19,6 +17,12 @@ public static class PostGameEndpoints
                 AverageDuration = gameDto.AverageDuration
             };
 
+            // We verify that the game we are creating meets the required stantarts.
+            IResult gameValidationResult = GameValidation.IsGameValid(game);
+            if(gameValidationResult is not Accepted)
+                return gameValidationResult;
+
+            // If everything is OK we add the game to our database.
             context.Games.Add(game);
             await context.SaveChangesAsync();
 

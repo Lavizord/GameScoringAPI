@@ -1,13 +1,11 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Mvc;
 
 public static class GetMatchDataPointEndpoints
 {
     public static void MapGetMatchDataPointEndpoints(this WebApplication app)
     {        
-        app.MapGet("/match-data-points-all", async (GameDBContext context) =>
+    
+        app.MapGet("/match-data-points/all/detailed", async (GameDBContext context) =>
         {
             var matchDataPoints = await context.MatchDataPoints
                 .Include(dp => dp.Match)       // Include the related Match entity
@@ -28,8 +26,29 @@ public static class GetMatchDataPointEndpoints
 
             return Results.Ok(matchDataPoints);
         })
+        .WithName("GetDetailedMatchDataPoints")
+        .WithTags("3. MatchDataPoints", "GET Endpoints")
+        .WithOpenApi();
+
+
+        app.MapGet("/match-data-points/all", async (GameDBContext context) =>
+        {
+            var matchDataPoints = await context.MatchDataPoints
+                .Select(dp => new MatchDataPointDto
+                {
+                    Id = dp.Id,
+                    MatchId = dp.MatchId,
+                    PlayerName = dp.PlayerName,
+                    GamePoints = dp.GamePoints,
+                    PointsDescription = dp.PointsDescription,
+                    CreatedDate = dp.CreatedDate
+                })
+                .ToListAsync();
+
+            return Results.Ok(matchDataPoints);
+        })
         .WithName("GetMatchDataPoints")
-        .WithTags("3. MatchDataPoints", "GET Endpoints", "9. FrontEnd - Mockup")
+        .WithTags("3. MatchDataPoints", "GET Endpoints")
         .WithOpenApi();
 
     }

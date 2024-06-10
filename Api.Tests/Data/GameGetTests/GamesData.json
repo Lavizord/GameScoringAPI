@@ -1,0 +1,21 @@
+[
+  {
+    "id": 1,
+    "gameName": "Hadara",
+    "gameDescription": "Civ e cartas",
+    "minPlayers": 0,
+    "maxPlayers": 0,
+    "averageDuration": 0,
+    "matchesCount": 0,
+    "matches": []
+  },
+  {
+    "id": 2,
+    "gameName": "Catan",
+    "gameDescription": "Teste",
+    "minPlayers": 0,
+    "maxPlayers": 0,
+    "averageDuration": 0,
+    "matchesCount": 1
+  }
+]

@@ -12,7 +12,6 @@ public class GameDBContext : DbContext
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.AddInterceptors(new MatchInterceptor());
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
