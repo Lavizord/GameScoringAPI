@@ -109,5 +109,29 @@ namespace Api.Tests
             Assert.Equal(expectedGame.AverageDuration, createdGame.AverageDuration);
             Assert.Equal(expectedGame.MatchesCount, createdGame.MatchesCount);
         }
+
+        [Fact]
+        public async Task CreateMultipleGames_ReturnsCreated()
+        {
+            await using var application = new WebApplicationFactory<Program>();
+
+            var client = application.CreateClient();
+            
+            var result = await client.PostAsJsonAsync("/games", new List<GameDto>
+            {
+                new GameDto { GameName = "Game 1" },
+                new GameDto { GameName = "Game 2" },
+                new GameDto { GameName = "Game 3" }
+            });
+            Assert.Equal(HttpStatusCode.Created, result.StatusCode);
+        }
+
+
+        // TODO: Adapt to multiple.
+        [Fact]
+        public async Task CreateMultipleGames_BadRequest_InvalidData()
+        {
+        }
+
     }
 }
