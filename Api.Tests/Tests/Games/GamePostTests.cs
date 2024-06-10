@@ -24,6 +24,48 @@ namespace Api.Tests
         }
 
         [Fact]
+        public async Task CreateSingleGame_BadRequest_InvalidData()
+        {
+            await using var application = new WebApplicationFactory<Program>();
+
+            var client = application.CreateClient();
+            
+            // Test for invalid game Name.
+            var result = await client.PostAsJsonAsync("/game", new GameDto
+            {
+                GameName = ""
+            });
+            Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
+
+            // Test for invalid MinPlayers.
+            result = await client.PostAsJsonAsync("/game", new GameDto
+            {
+                GameName = "TESTE",
+                MinPlayers = -1
+                
+            });
+            Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
+            
+            // Test for invalid MaxPlayers.
+            result = await client.PostAsJsonAsync("/game", new GameDto
+            {
+                GameName = "TESTE2",
+                MinPlayers = -1
+                
+            });
+            Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
+
+            // Test for invalid AverageDuration.
+            result = await client.PostAsJsonAsync("/game", new GameDto
+            {
+                GameName = "TESTE2",
+                AverageDuration = -1
+                
+            });
+            Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
+        }
+
+        [Fact]
         public async Task CreateSingleGame_ReturnsCorrectData()
         {
             await using var application = new WebApplicationFactory<Program>();
