@@ -49,7 +49,11 @@ public static class PostGameEndpoints
                     MaxPlayers = gameDto.MaxPlayers,
                     AverageDuration = gameDto.AverageDuration
                 };
-
+                 // We verify that the game we are creating meets the required stantarts.
+                IResult gameValidationResult = GameValidation.IsGameValid(game);
+                if(gameValidationResult is not Accepted)
+                    return gameValidationResult;
+                    
                 context.Games.Add(game);
                 createdGames.Add(game);
             }
