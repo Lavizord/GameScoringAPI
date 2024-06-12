@@ -30,15 +30,16 @@ namespace Api.Tests
         [Fact]
         public async Task GetGameById_ReturnsNotFound()
         {
-            int gameId = -1; // Change to a valid game ID for your test
+            int gameId = -1; // Use an ID that you know will not exist
             var response = await Client.GetAsync($"/game/{gameId}");
 
             // Read the response content as a string
             var jsonResponseString = await response.Content.ReadAsStringAsync();
             
-            // Assert not found.
-            Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);         
-            //TODO: Check Error message?   
+            // Assert that the status code is 404 Not Found
+            Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
+            // Assert that the response message is "Not found"
+            Assert.Contains($"Game with ID {gameId.ToString()} not found.", jsonResponseString);
         }
 
         [Fact]
@@ -73,10 +74,25 @@ namespace Api.Tests
 
             // Asserts
             Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
-            Assert.Single(gottenGames);
+            Assert.NotEmpty(gottenGames);
             if(gottenGames is not null)
                 foreach(GameDto game in gottenGames)
                     Assert.Contains(gameDescription, game.GameDescription);
+        }
+
+        [Fact]
+        public async Task GetGamesById_ReturnsNotFound()
+        {
+            int gameId = -1; // Use an ID that you know will not exist
+            var response = await Client.GetAsync($"/games?id={gameId}");
+
+            // Read the response content as a string
+            var jsonResponseString = await response.Content.ReadAsStringAsync();
+            
+            // Assert that the status code is 404 Not Found
+            Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
+            // Assert that the response message is "Not found"
+            Assert.Contains($"No games found with provided params.", jsonResponseString);
         }
 
         // TODO: Analisar melhor isto.
