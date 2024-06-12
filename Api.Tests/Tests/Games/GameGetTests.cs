@@ -28,6 +28,20 @@ namespace Api.Tests
         }
 
         [Fact]
+        public async Task GetGameById_ReturnsNotFound()
+        {
+            int gameId = -1; // Change to a valid game ID for your test
+            var response = await Client.GetAsync($"/game/{gameId}");
+
+            // Read the response content as a string
+            var jsonResponseString = await response.Content.ReadAsStringAsync();
+            
+            // Assert not found.
+            Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);         
+            //TODO: Check Error message?   
+        }
+
+        [Fact]
         public async Task GetGamesById_ReturnsGameIfExists()
         {
             int requestedGameId = 1; // Change to a valid game ID for your test
