@@ -60,8 +60,7 @@ namespace Api.Tests
 
         public List<T> GetDto<T>(string name)
         {
-            var directory = this.GetType().Name;
-            var jsonDto = File.ReadAllText($"./Data/{directory}/{name}.json");
+            var jsonDto = File.ReadAllText($"./Data/{name}.json");
             return JsonSerializer.Deserialize<List<T>>(jsonDto, GetOptions());
         }
 
