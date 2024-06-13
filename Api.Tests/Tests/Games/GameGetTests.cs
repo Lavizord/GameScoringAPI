@@ -61,7 +61,6 @@ namespace Api.Tests
 
         }
 
-        // TODO: Expand this a bit? Maybe add a 404
         [Fact]
         public async Task GetGamesByDescription_ReturnsGameIfExists()
         {
@@ -95,7 +94,17 @@ namespace Api.Tests
             Assert.Contains($"No games found with provided params.", jsonResponseString);
         }
 
-        // TODO: Analisar melhor isto.
+        [Fact]
+        public async Task GetGame_ResponseHeadersContainExpectedValues()
+        {
+            // Act
+            var response = await Client.GetAsync("/game/1");
+
+            // Assert
+            Assert.NotNull(response.Content.Headers.ContentType);
+            Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType.ToString());
+        }
+
         [Fact]
         public async Task GetGames_ResponseHeadersContainExpectedValues()
         {
@@ -103,7 +112,7 @@ namespace Api.Tests
             var response = await Client.GetAsync("/games");
 
             // Assert
-            //Assert.True(response.Headers.Contains("Content-Type"));
+            Assert.NotNull(response.Content.Headers.ContentType);
             Assert.Equal("application/json; charset=utf-8", response.Content.Headers.ContentType.ToString());
         }
     }
