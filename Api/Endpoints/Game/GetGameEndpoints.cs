@@ -11,6 +11,7 @@ public class MatchForGameDto
     public string? Notes { get; set; }
     public bool isFinished { get; set; }
     public int PlayerCount { get; set; }
+    public int NumberOfPlayers { get; set; }
     public List<MatchDataPointForMatchDto> MatchDataPoints { get; set; } = new List<MatchDataPointForMatchDto>();
     public MatchStatsDto MatchStats { get; set; } = new MatchStatsDto();
 }
@@ -94,6 +95,7 @@ public static class GetGameEndpoints
                     Notes = match.Notes,
                     isFinished = match.isFinished,
                     PlayerCount = match.PlayerCount,
+                    NumberOfPlayers = match.NumberOfPlayers,
                     MatchDataPoints = match.MatchDataPoints.Select(dp => new MatchDataPointForMatchDto
                     {
                         Id = dp.Id,

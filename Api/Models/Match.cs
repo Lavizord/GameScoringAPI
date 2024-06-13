@@ -12,6 +12,7 @@ public class Match
     public string? Notes { get; set; }
     public bool isFinished { get; set; }
     public int PlayerCount { get; set; }
+    public int NumberOfPlayers { get; set; }
     // Navigation property for related Game
     public Game Game { get; set; }
 

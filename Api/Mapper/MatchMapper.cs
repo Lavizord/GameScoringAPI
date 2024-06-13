@@ -28,6 +28,7 @@ public static class MatchMapper
                     Notes = m.Notes,
                     isFinished = m.isFinished,
                     PlayerCount = m.PlayerCount,
+                    NumberOfPlayers = m.NumberOfPlayers,
                     MatchDataPoints = includeDataPoints == true
                         ? m.MatchDataPoints.Select(dp => new MatchDataPointForMatchDto
                         {
