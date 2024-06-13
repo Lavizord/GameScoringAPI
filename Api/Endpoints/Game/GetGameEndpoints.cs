@@ -51,8 +51,11 @@ public static class GetGameEndpoints
             if (!string.IsNullOrEmpty(descripiton))
                 gamesQuery = gamesQuery.Where(g => g.GameDescription.Contains(descripiton));
             
-            var games = await context.Games.ToListAsync();
-
+            var games = await gamesQuery.ToListAsync();
+            if (games == null || games.Count() == 0)
+            {
+                return Results.NotFound($"No games found with provided params.");
+            }
             return Results.Ok(games);
         })
         .WithName("GetAllGames")

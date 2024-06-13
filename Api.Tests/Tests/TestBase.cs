@@ -41,11 +41,10 @@ namespace Api.Tests
             using var scope = Factory.Services.CreateScope();
             DbContext = scope.ServiceProvider.GetRequiredService<GameDBContext>();
 
-            // Ensure the database is created
-            DbContext.Database.EnsureCreated();
-
-            //SeedTestData();
-            SeedGamesData();
+            // Ensure the database is created, we should only seed data if our database is created.
+            DbContext.Database.EnsureDeleted();
+            if(DbContext.Database.EnsureCreated())
+                SeedGamesData();
         }   
 
         private JsonSerializerOptions GetOptions()
@@ -61,8 +60,7 @@ namespace Api.Tests
 
         public List<T> GetDto<T>(string name)
         {
-            var directory = this.GetType().Name;
-            var jsonDto = File.ReadAllText($"./Data/{directory}/{name}.json");
+            var jsonDto = File.ReadAllText($"./Data/{name}.json");
             return JsonSerializer.Deserialize<List<T>>(jsonDto, GetOptions());
         }
 
