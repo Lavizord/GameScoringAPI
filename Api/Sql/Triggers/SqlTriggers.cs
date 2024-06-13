@@ -1,7 +1,7 @@
 public static class SqlTriggers
 {
     public const string MatchesTriggerInsert = @"
-       -- Drop the trigger if it exists
+        -- Drop the trigger if it exists
         DROP TRIGGER IF EXISTS insert_game_match_count;
 
         -- Create the trigger
@@ -19,7 +19,7 @@ public static class SqlTriggers
     ";
     
     public const string MatchesTriggerDelete = @"
-       -- Drop the trigger if it exists
+        -- Drop the trigger if it exists
         DROP TRIGGER IF EXISTS delete_game_match_count;
 
         -- Create the trigger
@@ -30,14 +30,14 @@ public static class SqlTriggers
             SET MatchesCount = (
                 SELECT COUNT(*)
                 FROM matches
-                WHERE matches.GameID = COALESCE(NEW.GameID, OLD.GameID)
+                WHERE matches.GameID = OLD.GameID
             )
-            WHERE Id = COALESCE(NEW.GameID, OLD.GameID);
+            WHERE Id = OLD.GameID;
         END;
     ";
     
     public const string MatchesDataPointTriggerDelete = @"
-       -- Drop the trigger if it exists
+        -- Drop the trigger if it exists
         DROP TRIGGER IF EXISTS delete_match_player_count;
 
         -- Create the trigger
@@ -48,13 +48,14 @@ public static class SqlTriggers
             SET PlayerCount = (
                 SELECT COUNT(DISTINCT PlayerName)
                 FROM MatchDataPoints
-                WHERE matches.Id = COALESCE(NEW.MatchId, OLD.MatchId)
+                WHERE matches.Id = OLD.MatchId
             )
-            WHERE Id = COALESCE(NEW.MatchId, OLD.MatchId);
+            WHERE Id = OLD.MatchId;
         END;
     ";
+    
     public const string MatchesDataPointTriggerInsert = @"
-       -- Drop the trigger if it exists
+        -- Drop the trigger if it exists
         DROP TRIGGER IF EXISTS insert_match_player_count;
 
         -- Create the trigger
