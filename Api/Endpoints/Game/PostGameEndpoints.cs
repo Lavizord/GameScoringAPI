@@ -63,7 +63,7 @@ public static class PostGameEndpoints
             return Results.Created("/games", createdGames);
         })
         .WithName("PostMultipleGames")
-        .WithTags("1. Games", "POST Endpoints", "9. FrontEnd - Mockup")
+        .WithTags("1. Games", "POST Endpoints")
         .WithOpenApi()
         .WithDescription("Creates multiple games in the database using the provided game data. Returns 201 Created with the URL of the newly created games resource in the 'Location' header and the list of created games in the response body.")
         .Produces(StatusCodes.Status201Created, typeof(List<Game>), "application/json");
