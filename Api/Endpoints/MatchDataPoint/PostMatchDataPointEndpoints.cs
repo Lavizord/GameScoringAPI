@@ -64,7 +64,7 @@ public static class PostMatchDataPointEndpoints
             return Results.Created($"/match-data-points/{matchDataPoint.Id}", createdDataPointDto);
         })
         .WithName("PostMatchDataPoint")
-        .WithTags("3. MatchDataPoints", "POST Endpoints")
+        .WithTags("3. MatchDataPoints", "POST Endpoints", "9. FrontEnd - Mockup")
         .WithOpenApi()
         .WithDescription("Creates a new match data point for the specified match in the database using the provided data. Returns 201 Created with the URL of the newly created match data point resource in the 'Location' header and the created match data point in the response body.")
         .Produces(StatusCodes.Status201Created, typeof(ReturnPostMatchDataPointDto), "application/json");

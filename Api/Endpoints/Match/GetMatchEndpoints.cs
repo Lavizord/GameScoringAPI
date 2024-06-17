@@ -56,7 +56,7 @@ public static class GetMatchEndpoints
             return Results.Ok(match);
         })
         .WithName("GetMatch")
-        .WithTags("2. Matches", "GET Endpoints")
+        .WithTags("2. Matches", "GET Endpoints", "9. FrontEnd - Mockup")
         .WithOpenApi(); 
 
 
@@ -92,7 +92,7 @@ public static class GetMatchEndpoints
             return Results.Ok(matches);
         })
         .WithName("GetAllMatches")
-        .WithTags("2. Matches", "GET Endpoints")
+        .WithTags("2. Matches", "GET Endpoints", "9. FrontEnd - Mockup")
         .WithOpenApi();
            
     }

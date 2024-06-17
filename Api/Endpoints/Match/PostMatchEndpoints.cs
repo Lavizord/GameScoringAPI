@@ -44,7 +44,7 @@ public static class PostMatchEndpoints
             return Results.Created($"/matches/{returnMatch.MatchId}", returnMatch);
         })
         .WithName("PostMatch")
-        .WithTags("2. Matches", "POST Endpoints")
+        .WithTags("2. Matches", "POST Endpoints", "9. FrontEnd - Mockup")
         .WithOpenApi()
         .WithDescription("Creates a new match in the database using the provided match data. Returns 201 Created with the URL of the newly created match resource in the 'Location' header and the created match in the response body.")
         .Produces(StatusCodes.Status201Created, typeof(MatchForMatchDto), "application/json");
