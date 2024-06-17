@@ -21,7 +21,7 @@ public static class DeleteMatchEndpoints
             return Results.NoContent();
         })
         .WithName("DeleteMatchAndAllDataPoints")
-        .WithTags("2. Matches", "DELETE Endpoints")
+        .WithTags("2. Matches", "DELETE Endpoints", "9. FrontEnd - Mockup")
         .WithOpenApi()
         .WithDescription
         (
